@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact - Mohit Bhatt</title>
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    .contact-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 32px;
+      margin-top: 30px;
+    }
+    .contact-info-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      box-shadow: var(--shadow-sm);
+    }
+    .contact-method {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .contact-icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      background: var(--primary-light);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      border: 1px solid #bfdbfe;
+    }
+    .contact-method h4 {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+    .contact-method p, .contact-method a {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+    .contact-form-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      box-shadow: var(--shadow-md);
+    }
+    .success-message {
+      background: var(--success-light);
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+      padding: 16px;
+      border-radius: var(--radius-md);
+      margin-bottom: 20px;
+      font-weight: 600;
+      display: none;
+    }
+    .success-message.show {
+      display: block;
+    }
+    @media (max-width: 800px) {
+      .contact-wrapper {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="nav-brand">
+        <img src="photo1.jpg.png" alt="Mohit Bhatt" class="brand-avatar" onerror="this.src='https://via.placeholder.com/80'">
+        <span class="brand-name">Mohit Bhatt</span>
+      </a>
+
+      <button class="mobile-toggle" onclick="toggleMenu()" aria-label="Toggle navigation">☰</button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-item">Home</a></li>
+        <li><a href="projects.html" class="nav-item">Projects</a></li>
+        <li><a href="resume.html" class="nav-item">Resume</a></li>
+        <li><a href="contact.html" class="nav-item active">Contact</a></li>
+        <li><a href="admin.html" class="nav-btn-admin">⚙️ Admin</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header style="background: white; border-bottom: 1px solid var(--border); padding: 40px 0;">
+    <div class="container">
+      <h1 style="font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em;">Get In Touch</h1>
+      <p style="color: var(--text-muted); font-size: 1.05rem;">Have a question, project proposal, or collaboration opportunity? Let's connect!</p>
+    </div>
+  </header>
+
+  <main class="container" style="padding-bottom: 60px;">
+    <div class="contact-wrapper">
+      
+      <!-- Contact Information Sidebar -->
+      <div class="contact-info-card">
+        <h3 style="font-size: 1.35rem; font-weight: 700; margin-bottom: 24px;">Contact Information</h3>
+
+        <div class="contact-method">
+          <div class="contact-icon-box">📧</div>
+          <div>
+            <h4>Email</h4>
+            <a href="mailto:mohitbhatt2030@gmail.com">mohitbhatt2030@gmail.com</a>
+          </div>
+        </div>
+
+        <div class="contact-method">
+          <div class="contact-icon-box">📍</div>
+          <div>
+            <h4>Location</h4>
+            <p>Almora, Uttarakhand, India</p>
+          </div>
+        </div>
+
+        <div class="contact-method">
+          <div class="contact-icon-box">💼</div>
+          <div>
+            <h4>LinkedIn</h4>
+            <a href="https://www.linkedin.com/in/mohit-bhatt-almora" target="_blank">mohit-bhatt-almora</a>
+          </div>
+        </div>
+
+        <div class="contact-method">
+          <div class="contact-icon-box">▶️</div>
+          <div>
+            <h4>YouTube</h4>
+            <a href="https://www.youtube.com/@MohitBhattji-uk01" target="_blank">@MohitBhattji-uk01</a>
+          </div>
+        </div>
+
+        <div class="contact-method">
+          <div class="contact-icon-box">📸</div>
+          <div>
+            <h4>Instagram</h4>
+            <a href="https://www.instagram.com/mohitbhattuk01" target="_blank">@mohitbhattuk01</a>
+          </div>
+        </div>
+
+        <div class="contact-method">
+          <div class="contact-icon-box">🐙</div>
+          <div>
+            <h4>GitHub</h4>
+            <a href="https://github.com/mohitbhattuk01" target="_blank">mohitbhattuk01</a>
+          </div>
+        </div>
+
+        <div style="margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border);">
+          <h4 style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 12px;">Social Channels</h4>
+          <div class="social-links">
+            <a href="https://github.com/mohitbhattuk01" target="_blank" class="social-link" title="GitHub">🐙</a>
+            <a href="https://www.linkedin.com/in/mohit-bhatt-almora" target="_blank" class="social-link" title="LinkedIn">💼</a>
+            <a href="https://www.instagram.com/mohitbhattuk01" target="_blank" class="social-link" title="Instagram">📸</a>
+            <a href="https://www.youtube.com/@MohitBhattji-uk01" target="_blank" class="social-link" title="YouTube">▶️</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Form Card -->
+      <div class="contact-form-card">
+        <h3 style="font-size: 1.35rem; font-weight: 700; margin-bottom: 8px;">Send a Message</h3>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px;">
+          Fill out the form below and I will get back to you as soon as possible.
+        </p>
+
+        <!-- Success Message -->
+        <div class="success-message" id="successMessage">
+          ✅ Message sent successfully! Thank you for reaching out, I will reply shortly.
+        </div>
+
+        <!-- Working FormSubmit Form -->
+        <form action="https://formsubmit.co/mohitbhatt2030@gmail.com" method="POST" id="contactForm">
+          <!-- Honeypot -->
+          <input type="text" name="_honey" style="display:none">
+          <!-- Redirect -->
+          <input type="hidden" name="_next" value="https://mohitbhatt.github.io/portfolio/contact.html?success=true">
+          <!-- Subject -->
+          <input type="hidden" name="_subject" value="New Contact Message from Portfolio Website">
+
+          <div class="form-group">
+            <label for="name">Your Name *</label>
+            <input type="text" id="name" name="name" class="form-control" placeholder="Enter your full name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Your Email Address *</label>
+            <input type="email" id="email" name="email" class="form-control" placeholder="e.g. yourname@example.com" required>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Your Message *</label>
+            <textarea id="message" name="message" class="form-control" rows="5" placeholder="Write your message here..." required></textarea>
+          </div>
+
+          <button type="submit" id="submitBtn" class="btn btn-primary" style="width: 100%; padding: 14px;">
+            📨 Send Message
+          </button>
+          <small style="display: block; text-align: center; color: var(--text-light); margin-top: 12px;">
+            🔒 Your email and details are never shared.
+          </small>
+        </form>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-bottom">
+        <div>© 2025-2026 Mohit Bhatt. All rights reserved.</div>
+        <div><a href="admin.html" style="color: var(--text-light); font-size: 0.8rem;">⚙️ Admin Dashboard</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const nav = document.getElementById('navLinks');
+      nav.classList.toggle('show');
+    }
+
+    // Success URL param check
+    window.addEventListener('load', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      if(urlParams.has('success') && urlParams.get('success') === 'true') {
+        const msg = document.getElementById('successMessage');
+        msg.classList.add('show');
+        setTimeout(() => {
+          msg.classList.remove('show');
+          const url = new URL(window.location);
+          url.searchParams.delete('success');
+          window.history.replaceState({}, '', url);
+        }, 6000);
+      }
+    });
+
+    document.getElementById('contactForm').addEventListener('submit', function() {
+      const btn = document.getElementById('submitBtn');
+      btn.innerHTML = '⏳ Sending Message...';
+      btn.disabled = true;
+    });
+  </script>
+</body>
+</html>

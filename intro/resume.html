@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume - Mohit Bhatt</title>
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* Resume specific layout */
+    .resume-sheet {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      padding: 48px;
+      margin: 30px auto 50px;
+      max-width: 900px;
+    }
+
+    .resume-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 28px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .resume-profile {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .resume-pic {
+      width: 100px;
+      height: 100px;
+      border-radius: var(--radius-full);
+      object-fit: cover;
+      border: 3px solid var(--primary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .resume-name h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.1;
+    }
+
+    .resume-name p {
+      font-size: 1.05rem;
+      color: var(--primary);
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .resume-contact {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      text-align: right;
+    }
+
+    .resume-contact a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .resume-sec-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-main);
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 6px;
+      margin: 28px 0 16px;
+      display: inline-block;
+    }
+
+    .resume-project-item {
+      margin-bottom: 16px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--bg-body);
+    }
+
+    .resume-project-item h4 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Print styling */
+    @media print {
+      .navbar, footer, .no-print {
+        display: none !important;
+      }
+      body {
+        background: white;
+      }
+      .resume-sheet {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        margin: 0;
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .resume-header {
+        flex-direction: column;
+        text-align: center;
+      }
+      .resume-profile {
+        flex-direction: column;
+      }
+      .resume-contact {
+        text-align: center;
+      }
+      .resume-sheet {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar no-print">
+    <div class="container nav-container">
+      <a href="index.html" class="nav-brand">
+        <img src="photo1.jpg.png" alt="Mohit Bhatt" class="brand-avatar" onerror="this.src='https://via.placeholder.com/80'">
+        <span class="brand-name">Mohit Bhatt</span>
+      </a>
+
+      <button class="mobile-toggle" onclick="toggleMenu()" aria-label="Toggle navigation">☰</button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-item">Home</a></li>
+        <li><a href="projects.html" class="nav-item">Projects</a></li>
+        <li><a href="resume.html" class="nav-item active">Resume</a></li>
+        <li><a href="contact.html" class="nav-item">Contact</a></li>
+        <li><a href="admin.html" class="nav-btn-admin">⚙️ Admin</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Actions Bar -->
+  <div class="container no-print" style="margin-top: 24px; display: flex; justify-content: flex-end; gap: 12px;">
+    <button onclick="window.print()" class="btn btn-primary btn-sm">
+      🖨️ Print / Save as PDF
+    </button>
+    <a href="resume (1).pdf" download class="btn btn-secondary btn-sm">
+      📥 Download Original PDF
+    </a>
+  </div>
+
+  <main class="container">
+    <div class="resume-sheet">
+      <!-- Resume Header -->
+      <div class="resume-header">
+        <div class="resume-profile">
+          <img src="photo1.jpg.png" alt="Mohit Bhatt" class="resume-pic" onerror="this.src='https://via.placeholder.com/120'">
+          <div class="resume-name">
+            <h1>Mohit Bhatt</h1>
+            <p>Cloud Data Organization & Backup | Website Developer</p>
+          </div>
+        </div>
+        <div class="resume-contact">
+          <div>📧 <a href="mailto:mohitbhattuk01@gmail.com">mohitbhattuk01@gmail.com</a></div>
+          <div>📍 Almora, Uttarakhand, India</div>
+          <div>🔗 <a href="https://www.linkedin.com/in/mohit-bhatt-almora" target="_blank">linkedin.com/in/mohit-bhatt-almora</a></div>
+          <div>▶️ <a href="https://www.youtube.com/@MohitBhattji-uk01" target="_blank">youtube.com/@MohitBhattji-uk01</a></div>
+          <div>🐙 <a href="https://github.com/mohitbhattuk01" target="_blank">github.com/mohitbhattuk01</a></div>
+        </div>
+      </div>
+
+      <!-- Professional Summary -->
+      <div>
+        <h3 class="resume-sec-title">Professional Summary</h3>
+        <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7;">
+          Proactive IT and software professional from Almora, Uttarakhand, currently specializing in <strong>Cloud Data Organization & Backup</strong> and <strong>Website Development</strong>. Completed Diploma in Information Technology and Graduation. Experienced in cloud storage management, automated backup pipelines, cross-device file synchronization, and developing responsive modern websites using HTML5, CSS3, JavaScript, and Python.
+        </p>
+      </div>
+
+      <!-- Work Experience -->
+      <div>
+        <h3 class="resume-sec-title">Work Experience</h3>
+        <div class="resume-project-item">
+          <h4>
+            <span>Cloud Data Organization, Backup & Website Development</span>
+            <span class="status-badge status-completed" style="font-size: 0.75rem;">📅 Present (Currently Working)</span>
+          </h4>
+          <p style="color: var(--primary); font-size: 0.85rem; font-weight: 600; margin: 4px 0 8px;">
+            Almora, Uttarakhand • Cloud Storage, Data Backup & Sync, Website Development
+          </p>
+          <ul style="padding-left: 20px; color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">
+            <li>Administer cloud storage ecosystems for secure handling of files, documents, media, contacts, and digital assets.</li>
+            <li>Coordinate automated data backups, data recovery procedures, and cross-platform synchronization.</li>
+            <li>Maintain data security, access permissions, and shared workspace controls.</li>
+            <li>Deliver technical IT support, system configuration, and software troubleshooting.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Education Section -->
+      <div>
+        <h3 class="resume-sec-title">Education</h3>
+        <table class="edu-table" style="margin-top: 8px;">
+          <thead>
+            <tr>
+              <th>Qualification</th>
+              <th>Institute / College</th>
+              <th>Board / University</th>
+              <th>Duration</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Graduation (Bachelor's Degree)</strong></td>
+              <td>Affiliated College / University</td>
+              <td>State / Central University</td>
+              <td>Completed</td>
+              <td><span class="status-badge status-completed">✓ Completed</span></td>
+            </tr>
+            <tr>
+              <td><strong>Diploma in Information Technology</strong></td>
+              <td>Nainital Institute of Technology</td>
+              <td>Uttarakhand Board of Technical Education</td>
+              <td>2023 - 2026</td>
+              <td><span class="status-badge status-completed">✓ Completed</span></td>
+            </tr>
+            <tr>
+              <td>Intermediate (12th)</td>
+              <td>Government Inter College</td>
+              <td>Uttarakhand Board</td>
+              <td>2021 - 2023</td>
+              <td><span class="status-badge status-completed">✓ Completed</span></td>
+            </tr>
+            <tr>
+              <td>High School (10th)</td>
+              <td>Government Inter College</td>
+              <td>Uttarakhand Board</td>
+              <td>2019 - 2021</td>
+              <td><span class="status-badge status-completed">✓ Completed</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Key Projects -->
+      <div>
+        <h3 class="resume-sec-title">Key Projects</h3>
+
+        <!-- AI Resume Analyzer -->
+        <div class="resume-project-item">
+          <h4>
+            <span>AI Resume Analyzer (Diploma Final Year Project)</span>
+            <span class="status-badge status-completed" style="font-size: 0.75rem;">🟢 Live on Render</span>
+          </h4>
+          <p style="color: var(--primary); font-size: 0.85rem; font-weight: 600; margin: 4px 0 8px;">
+            Tech Stack: Python, Flask, NLP / Machine Learning, HTML5, CSS3, JSON DB
+          </p>
+          <ul style="padding-left: 20px; color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">
+            <li>Built an end-to-end AI resume screening system that analyzes and scores candidate resumes against job descriptions.</li>
+            <li>Designed an admin dashboard with applicant tracking, file preview, and status management.</li>
+            <li>Deployed live on cloud: <a href="https://resume-screening-systemgunicorn-app-app.onrender.com/" target="_blank">resume-screening-systemgunicorn-app-app.onrender.com</a></li>
+          </ul>
+        </div>
+
+        <!-- Other Projects -->
+        <div class="resume-project-item">
+          <h4>Interactive Web Utility Applications</h4>
+          <p style="color: var(--primary); font-size: 0.85rem; font-weight: 600; margin: 4px 0 8px;">
+            Tech Stack: JavaScript, HTML5, Web Speech API, Weather API, CSS3
+          </p>
+          <ul style="padding-left: 20px; color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">
+            <li><strong>Voice To-Do List:</strong> Task manager utilizing Web Speech API for voice command task entry.</li>
+            <li><strong>Live Weather App:</strong> Real-time meteorological inquiry app with city search and temperature analytics.</li>
+            <li><strong>Web Calculator:</strong> Standard interactive calculator with arithmetic operations and history display.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Technical Skills -->
+      <div>
+        <h3 class="resume-sec-title">Technical Skills</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; margin-top: 8px;">
+          <div><strong>Cloud Data & Storage:</strong> Cloud Storage Systems, Backup & Recovery, Data Sync & Security</div>
+          <div><strong>IT Support & Software:</strong> System Troubleshooting, OS, Software Setup, IT Helpdesk</div>
+          <div><strong>Languages:</strong> Python, C, C++, JavaScript, PHP basics</div>
+          <div><strong>Front-End:</strong> HTML5, CSS3, Responsive Design, DOM</div>
+          <div><strong>Frameworks:</strong> Flask (Python), Bootstrap</div>
+          <div><strong>Concepts:</strong> NLP / AI Basics, DSA, Database Management</div>
+          <div><strong>Tools:</strong> Git, GitHub, Render, VS Code</div>
+          <div><strong>Databases:</strong> MySQL, JSON Storage</div>
+        </div>
+      </div>
+
+      <!-- Internships & Certifications -->
+      <div>
+        <h3 class="resume-sec-title">Internships & Certifications</h3>
+        <table class="edu-table" style="margin-top: 8px;">
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Organization</th>
+              <th>Duration</th>
+              <th>Area of Focus</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Internship</td>
+              <td>Nainital Institute of Technology</td>
+              <td>1 Month</td>
+              <td>Web Development (HTML5, CSS3, JS, PHP, MySQL)</td>
+            </tr>
+            <tr>
+              <td>Internship</td>
+              <td>GICT – Global Institute of Cyber Security</td>
+              <td>1.5 Months</td>
+              <td>Python Programming Fundamentals</td>
+            </tr>
+            <tr>
+              <td>Internship</td>
+              <td>Tamizhan Skills</td>
+              <td>1 Month</td>
+              <td>Data Science and Analytics Fundamentals</td>
+            </tr>
+            <tr>
+              <td>Certification</td>
+              <td>Self-Paced / Online</td>
+              <td>1 Month</td>
+              <td>Data Structures & Algorithms (DSA) in C/C++</td>
+            </tr>
+            <tr>
+              <td>Training</td>
+              <td>LinkedIn</td>
+              <td>1 Day</td>
+              <td>Cyber Security Awareness & AI Trends Training</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="no-print">
+    <div class="container">
+      <div class="footer-bottom">
+        <div>© 2025-2026 Mohit Bhatt. All rights reserved.</div>
+        <div><a href="admin.html" style="color: var(--text-light); font-size: 0.8rem;">⚙️ Admin Dashboard</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const nav = document.getElementById('navLinks');
+      nav.classList.toggle('show');
+    }
+  </script>
+</body>
+</html>

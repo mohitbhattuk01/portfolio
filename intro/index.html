@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mohit Bhatt - Portfolio</title>
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* Certificate Modal */
+    .cert-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(4px);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .cert-modal-content {
+      position: relative;
+      background: white;
+      padding: 12px;
+      border-radius: var(--radius-lg);
+      max-width: 850px;
+      width: 100%;
+      box-shadow: var(--shadow-xl);
+      text-align: center;
+    }
+    .cert-modal-close {
+      position: absolute;
+      top: -16px;
+      right: -16px;
+      background: #ef4444;
+      color: white;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 1.25rem;
+      cursor: pointer;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-md);
+    }
+    .cert-modal-img {
+      max-width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: var(--radius-sm);
+    }
+    .cert-btn {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--primary);
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .cert-btn:hover {
+      background: var(--primary-light);
+      border-color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="nav-brand">
+        <img src="photo1.jpg.png" alt="Mohit Bhatt" class="brand-avatar" onerror="this.src='https://via.placeholder.com/80'">
+        <span class="brand-name">Mohit Bhatt</span>
+      </a>
+
+      <button class="mobile-toggle" onclick="toggleMenu()" aria-label="Toggle navigation">☰</button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-item active">Home</a></li>
+        <li><a href="projects.html" class="nav-item">Projects</a></li>
+        <li><a href="resume.html" class="nav-item">Resume</a></li>
+        <li><a href="contact.html" class="nav-item">Contact</a></li>
+        <li><a href="admin.html" class="nav-btn-admin">⚙️ Admin</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero-section">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="profile-img-wrapper">
+          <img src="photo1.jpg.png" alt="Mohit Bhatt" class="hero-profile-pic" onerror="this.src='https://via.placeholder.com/180'">
+          <div class="status-indicator" title="Available for projects & opportunities"></div>
+        </div>
+
+        <div>
+          <div class="hero-badge-row">
+            <span class="chip chip-primary">☁️ Cloud Data Organization & Backup</span>
+            <span class="chip chip-primary">🌐 Website Developer</span>
+            <span class="chip chip-success">📍 Almora, Uttarakhand</span>
+            <span class="chip chip-success">🎓 Diploma & Graduation (Completed)</span>
+          </div>
+
+          <h1 class="hero-title">Mohit Bhatt</h1>
+          <p class="hero-subtitle">Cloud Data Specialist & Website Developer • Almora, Uttarakhand</p>
+          <p class="hero-bio" id="heroBio">
+            Hello! I'm <strong>Mohit Bhatt</strong> from <strong>Almora, Uttarakhand</strong>. I specialize in <strong>Cloud Data Organization & Backup</strong> and <strong>Modern Website Development</strong>. I manage cloud storage architectures, secure digital file backups, cross-platform data synchronization, and build responsive web applications.
+          </p>
+
+          <!-- Social Quick Links -->
+          <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
+            <a href="https://www.linkedin.com/in/mohit-bhatt-almora" target="_blank" class="chip chip-primary" style="text-decoration: none; padding: 6px 14px; font-size: 0.85rem;">
+              💼 LinkedIn
+            </a>
+            <a href="https://www.youtube.com/@MohitBhattji-uk01" target="_blank" class="chip chip-primary" style="text-decoration: none; padding: 6px 14px; font-size: 0.85rem; color: #dc2626; border-color: #fecaca; background: #fef2f2;">
+              ▶️ YouTube
+            </a>
+            <a href="https://www.instagram.com/mohitbhattuk01" target="_blank" class="chip chip-primary" style="text-decoration: none; padding: 6px 14px; font-size: 0.85rem; color: #db2777; border-color: #fbcfe8; background: #fdf2f8;">
+              📸 Instagram
+            </a>
+            <a href="https://github.com/mohitbhattuk01" target="_blank" class="chip chip-primary" style="text-decoration: none; padding: 6px 14px; font-size: 0.85rem; color: #1e293b; border-color: #cbd5e1; background: #f1f5f9;">
+              🐙 GitHub
+            </a>
+          </div>
+
+          <div class="hero-actions">
+            <a href="https://resume-screening-systemgunicorn-app-app.onrender.com/" target="_blank" class="btn btn-live">
+              🚀 View Featured Project (Render)
+            </a>
+            <a href="projects.html" class="btn btn-primary">
+              📁 Explore All Projects
+            </a>
+            <a href="resume (1).pdf" download class="btn btn-secondary">
+              📄 Download Resume
+            </a>
+            <a href="contact.html" class="btn btn-secondary">
+              ✉️ Contact Me
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- About Section -->
+    <section class="section">
+      <div class="card">
+        <div class="section-header">
+          <h2>👨‍💻 About Me</h2>
+        </div>
+        <p style="font-size: 1.05rem; color: var(--text-muted); line-height: 1.8;">
+          Hello! I'm <strong>Mohit Bhatt</strong>, based in <strong>Almora, Uttarakhand</strong>. I currently work in <strong>Cloud Data Organization, Storage & Backup</strong>, alongside professional <strong>Website Development</strong>. 
+          I have completed both my <strong>Diploma in Information Technology</strong> from Nainital Institute of Technology and my <strong>Graduation</strong>. 
+          My core capabilities include administering cloud storage systems, organizing digital assets (documents, pictures, videos, files, and contacts), executing automated backups, and engineering modern front-end and full-stack websites with HTML, CSS, JavaScript, and Python.
+        </p>
+      </div>
+    </section>
+
+    <!-- Current Professional Experience -->
+    <section class="section" style="padding-top: 0;">
+      <div class="card" style="border: 2px solid #bfdbfe; background: linear-gradient(to right bottom, #ffffff, #f0f7ff);">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; margin-bottom: 20px;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+              <span class="badge-render">
+                <span class="pulse-dot"></span> Currently Working
+              </span>
+              <span class="tag tag-primary">Almora, Uttarakhand</span>
+            </div>
+            <h3 style="font-size: 1.5rem; font-weight: 800; color: var(--text-main);">Cloud Data Organization, Backup & Website Development</h3>
+            <p style="color: var(--primary); font-weight: 600; font-size: 1rem;">Cloud Storage Architectures, Data Synchronization, Backup Pipelines & Modern Websites</p>
+          </div>
+          <div style="text-align: right;">
+            <span class="tag" style="background: white; font-size: 0.85rem; font-weight: 700;">📅 Present</span>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center;">
+          <div>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 16px; line-height: 1.7;">
+              Managing centralized cloud storage workflows, ensuring reliable data integrity, structuring files, media, and documents, executing scheduled backups, and maintaining cross-platform synchronization and secure sharing protocols. In tandem, designing and deploying responsive, high-performance web applications.
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px;">
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-muted);">
+                <span>☁️</span> <strong>Cloud Data & Storage Organization</strong>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-muted);">
+                <span>🔄</span> <strong>Automated Backup & Disaster Recovery</strong>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-muted);">
+                <span>🌐</span> <strong>Responsive Website Development</strong>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-muted);">
+                <span>🔒</span> <strong>Secure File Sharing & Access Controls</strong>
+              </div>
+            </div>
+          </div>
+          <div style="text-align: center;">
+            <img src="cloud-storage.png" alt="Cloud Storage Management" style="max-width: 200px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border); background: white;">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education Section -->
+    <section class="section" style="padding-top: 0;">
+      <div class="section-header">
+        <h2>🎓 Education</h2>
+        <p>My academic qualifications and educational timeline</p>
+      </div>
+
+      <div class="edu-table-wrapper">
+        <table class="edu-table">
+          <thead>
+            <tr>
+              <th>Qualification</th>
+              <th>Institute / College</th>
+              <th>Board / University</th>
+              <th>Duration</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Graduation (Bachelor's Degree)</strong></td>
+              <td>Affiliated College / University</td>
+              <td>State / Central University</td>
+              <td>Completed</td>
+              <td><span class="status-badge status-completed">✓ Completed</span></td>
+            </tr>
+            <tr>
+              <td><strong>Diploma in Information Technology</strong></td>
+              <td>Nainital Institute of Technology</td>
+              <td>Uttarakhand Board of Technical Education</td>
+              <td>2023 - 2026</td>
+              <td><span class="status-badge status-completed">✓ Completed</span></td>
+            </tr>
+            <tr>
+              <td>Intermediate (12th)</td>
+              <td>Government Inter College</td>
+              <td>Uttarakhand Board</td>
+              <td>2021 - 2023</td>
+              <td><span class="status-badge status-completed">✓ Completed</span></td>
+            </tr>
+            <tr>
+              <td>High School (10th)</td>
+              <td>Government Inter College</td>
+              <td>Uttarakhand Board</td>
+              <td>2019 - 2021</td>
+              <td><span class="status-badge status-completed">✓ Completed</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Services & What I Do Section -->
+    <section class="section" style="padding-top: 0;">
+      <div class="section-header">
+        <h2>🛠️ Core Services & What I Do</h2>
+        <p>Key technical domains and digital solutions I offer</p>
+      </div>
+
+      <div class="skills-grid">
+        <div class="skill-box" style="align-items: flex-start; padding: 22px;">
+          <div class="skill-icon" style="font-size: 2rem;">☁️</div>
+          <div class="skill-details">
+            <h4 style="font-size: 1.1rem; margin-bottom: 6px;">Cloud Data Organization & Backup</h4>
+            <p style="font-size: 0.9rem; line-height: 1.6;">Setup and maintenance of cloud storage hierarchies, scheduled data backups, automated recovery, and synchronization across devices.</p>
+          </div>
+        </div>
+
+        <div class="skill-box" style="align-items: flex-start; padding: 22px;">
+          <div class="skill-icon" style="font-size: 2rem;">🌐</div>
+          <div class="skill-details">
+            <h4 style="font-size: 1.1rem; margin-bottom: 6px;">Website Development & UI/UX</h4>
+            <p style="font-size: 0.9rem; line-height: 1.6;">Building clean, responsive, and mobile-friendly websites with modern HTML5, CSS3, and JavaScript tailored for personal and business brands.</p>
+          </div>
+        </div>
+
+        <div class="skill-box" style="align-items: flex-start; padding: 22px;">
+          <div class="skill-icon" style="font-size: 2rem;">🖥️</div>
+          <div class="skill-details">
+            <h4 style="font-size: 1.1rem; margin-bottom: 6px;">IT Support & Troubleshooting</h4>
+            <p style="font-size: 0.9rem; line-height: 1.6;">System diagnostics, operating system maintenance, software deployment, hardware troubleshooting, and technical user assistance.</p>
+          </div>
+        </div>
+
+        <div class="skill-box" style="align-items: flex-start; padding: 22px;">
+          <div class="skill-icon" style="font-size: 2rem;">🤖</div>
+          <div class="skill-details">
+            <h4 style="font-size: 1.1rem; margin-bottom: 6px;">AI & Python Automation</h4>
+            <p style="font-size: 0.9rem; line-height: 1.6;">Custom Python scripting, task automation, NLP text analysis, and cloud deployment pipelines (like Render-hosted systems).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technical Skills Section -->
+    <section class="section" style="padding-top: 0;">
+      <div class="section-header">
+        <h2>💻 Technical Skills</h2>
+        <p>Core programming languages, frameworks, and tools I work with</p>
+      </div>
+
+      <div class="skills-grid">
+        <div class="skill-box">
+          <div class="skill-icon">☁️</div>
+          <div class="skill-details">
+            <h4>Cloud Data & Storage</h4>
+            <p>Cloud Storage, Backup & Recovery, Data Sync & Security</p>
+          </div>
+        </div>
+        <div class="skill-box">
+          <div class="skill-icon">🖥️</div>
+          <div class="skill-details">
+            <h4>IT Support & Software</h4>
+            <p>System Configuration, Troubleshooting, Helpdesk & OS</p>
+          </div>
+        </div>
+        <div class="skill-box">
+          <div class="skill-icon">🌐</div>
+          <div class="skill-details">
+            <h4>Web Development</h4>
+            <p>HTML5, CSS3, JavaScript, Responsive Design</p>
+          </div>
+        </div>
+        <div class="skill-box">
+          <div class="skill-icon">🐍</div>
+          <div class="skill-details">
+            <h4>Python & AI / NLP</h4>
+            <p>Flask, Machine Learning, Resume Screening System</p>
+          </div>
+        </div>
+        <div class="skill-box">
+          <div class="skill-icon">⚙️</div>
+          <div class="skill-details">
+            <h4>C & C++ Programming</h4>
+            <p>Data Structures, Algorithms & Logic Building</p>
+          </div>
+        </div>
+        <div class="skill-box">
+          <div class="skill-icon">🗄️</div>
+          <div class="skill-details">
+            <h4>Database & Backend</h4>
+            <p>MySQL, PHP basics, JSON Data Storage</p>
+          </div>
+        </div>
+        <div class="skill-box">
+          <div class="skill-icon">📊</div>
+          <div class="skill-details">
+            <h4>Data Science</h4>
+            <p>Analytics, Model Concepts & Processing</p>
+          </div>
+        </div>
+        <div class="skill-box">
+          <div class="skill-icon">🛠️</div>
+          <div class="skill-details">
+            <h4>Tools & Deployment</h4>
+            <p>Git, GitHub, Render, VS Code</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⭐ FEATURED PROJECT (PRESERVED RENDER LINK) -->
+    <section class="section" style="padding-top: 0;">
+      <div class="section-header">
+        <h2>⭐ Featured Project</h2>
+        <p>Major deployment and diploma final year project</p>
+      </div>
+
+      <div class="featured-card">
+        <div class="featured-badge-bar">
+          <span class="badge-gold">🏆 Final Year Project</span>
+          <span class="badge-render">
+            <span class="pulse-dot"></span> Live on Render
+          </span>
+        </div>
+
+        <div class="featured-content">
+          <div class="featured-info">
+            <h3>AI Resume Analyzer</h3>
+            <div class="featured-subtitle">Smart Resume Screening & Ranking System</div>
+            <p class="featured-desc">
+              An AI-powered web application that automatically analyzes, scores, and ranks resumes based on job descriptions. Features real-time resume parsing, automated scoring, applicant tracking, and an admin management portal.
+            </p>
+            <ul class="featured-highlights">
+              <li>Smart resume scoring & keyword matching with job descriptions</li>
+              <li>Admin portal with applicant screening and status updates</li>
+              <li>PDF resume upload, viewing, and text extraction</li>
+              <li>Deployed and running 24/7 live on Render cloud</li>
+            </ul>
+            <div class="tag-list">
+              <span class="tag tag-primary">Python</span>
+              <span class="tag tag-primary">Flask</span>
+              <span class="tag tag-primary">NLP / AI</span>
+              <span class="tag">HTML5</span>
+              <span class="tag">CSS3</span>
+              <span class="tag">JSON DB</span>
+            </div>
+          </div>
+
+          <div class="featured-cta-box">
+            <a href="https://resume-screening-systemgunicorn-app-app.onrender.com/" target="_blank" class="btn btn-live">
+              🚀 Open Live Demo
+            </a>
+            <a href="https://github.com/mohitbhattuk01" target="_blank" class="btn btn-github">
+              🐙 View on GitHub
+            </a>
+            <p class="hosting-note">
+              ⚡ Free tier cloud hosting (First load may take 30–60s if asleep).
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dynamic Projects Section (Synced with Admin Panel) -->
+    <section class="section" style="padding-top: 0;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <div class="section-header" style="margin-bottom: 0;">
+          <h2>📁 Other Projects</h2>
+          <p>Applications, utilities, and tools built by me</p>
+        </div>
+        <a href="projects.html" class="btn btn-secondary btn-sm">View All Projects →</a>
+      </div>
+
+      <div class="projects-grid" id="homeProjectsGrid">
+        <!-- Injected via JavaScript from data.js -->
+      </div>
+    </section>
+
+    <!-- Internships & Training Section -->
+    <section class="section" style="padding-top: 0;">
+      <div class="section-header">
+        <h2>📜 Internships & Certifications</h2>
+        <p>Hands-on training, industry certifications, and learning milestones</p>
+      </div>
+
+      <div class="edu-table-wrapper">
+        <table class="edu-table">
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Organization</th>
+              <th>Duration</th>
+              <th>Details</th>
+              <th>Status</th>
+              <th>Certificate</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Internship</strong></td>
+              <td>Nainital Institute of Technology</td>
+              <td>1 Month</td>
+              <td>Web Development Internship (HTML5, CSS3, JavaScript, PHP, MySQL)</td>
+              <td><span class="status-badge status-completed">✓ Completed</span></td>
+              <td><button class="cert-btn" onclick="openCertModal('nit.jpg')">👁️ View Certificate</button></td>
+            </tr>
+            <tr>
+              <td><strong>Internship</strong></td>
+              <td>GICT – Global Institute of Cyber Security</td>
+              <td>1.5 Months</td>
+              <td>Python Programming Fundamentals & Standard Libraries</td>
+              <td><span class="status-badge status-completed">✓ Completed</span></td>
+              <td><button class="cert-btn" onclick="openCertModal('gict.jpg')">👁️ View Certificate</button></td>
+            </tr>
+            <tr>
+              <td><strong>Internship</strong></td>
+              <td>Tamizhan Skills</td>
+              <td>1 Month</td>
+              <td>Data Science & Analytics Concepts, Data Interpretation</td>
+              <td><span class="status-badge status-completed">✓ Completed</span></td>
+              <td><button class="cert-btn" onclick="openCertModal('tamizhan.jpg')">👁️ View Certificate</button></td>
+            </tr>
+            <tr>
+              <td><strong>Course</strong></td>
+              <td>Self-Paced / Online</td>
+              <td>1 Month</td>
+              <td>Data Structures & Algorithms (DSA) in C/C++</td>
+              <td><span class="status-badge status-completed">✓ Completed</span></td>
+              <td><button class="cert-btn" onclick="openCertModal('dsa.jpg')">👁️ View Certificate</button></td>
+            </tr>
+            <tr>
+              <td><strong>Training</strong></td>
+              <td>LinkedIn</td>
+              <td>1 Day</td>
+              <td>Cyber Security Awareness & AI Trends Training</td>
+              <td><span class="status-badge status-completed">✓ Completed</span></td>
+              <td>
+                <a href="https://www.linkedin.com/posts/mohit-bhatt-almora_cybersecurity-cyberawareness-artificialintelligence-share-7464130179682959362-oGAG/?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAFhRqZoBELm8XjLVUsh7JIEV-zdkIeLj5oM" target="_blank" class="cert-btn">
+                  🔗 View Post
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <h4>Mohit Bhatt</h4>
+          <p>Web Developer | Diploma in IT (Completed) • Pursuing Graduation</p>
+        </div>
+
+        <div class="social-links">
+          <a href="https://github.com/mohitbhattuk01" target="_blank" class="social-link" title="GitHub">🐙</a>
+          <a href="https://www.linkedin.com/in/mohit-bhatt-almora" target="_blank" class="social-link" title="LinkedIn">💼</a>
+          <a href="https://www.instagram.com/mohitbhattuk01" target="_blank" class="social-link" title="Instagram">📸</a>
+          <a href="https://www.youtube.com/@MohitBhattji-uk01" target="_blank" class="social-link" title="YouTube">▶️</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2025-2026 Mohit Bhatt. All rights reserved.</div>
+        <div>
+          <a href="admin.html" style="color: var(--text-light); font-size: 0.8rem;">⚙️ Admin Dashboard</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Certificate Modal -->
+  <div id="certModal" class="cert-modal">
+    <div class="cert-modal-content">
+      <button class="cert-modal-close" onclick="closeCertModal()">×</button>
+      <img id="certModalImg" src="" alt="Certificate" class="cert-modal-img">
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="data.js"></script>
+  <script>
+    // Toggle Mobile Navigation
+    function toggleMenu() {
+      const nav = document.getElementById('navLinks');
+      nav.classList.toggle('show');
+    }
+
+    // Certificate Modal
+    function openCertModal(imgSrc) {
+      const modal = document.getElementById('certModal');
+      const modalImg = document.getElementById('certModalImg');
+      modalImg.src = imgSrc;
+      modal.style.display = 'flex';
+    }
+
+    function closeCertModal() {
+      document.getElementById('certModal').style.display = 'none';
+    }
+
+    window.addEventListener('click', function(e) {
+      const modal = document.getElementById('certModal');
+      if (e.target === modal) {
+        closeCertModal();
+      }
+    });
+
+    // Render Dynamic Projects on Home Page
+    function renderHomeProjects() {
+      const grid = document.getElementById('homeProjectsGrid');
+      const projects = PortfolioData.getProjects();
+      
+      // Filter out the featured project since it has its own dedicated spotlight card above
+      const otherProjects = projects.filter(p => p.id !== 'ai-resume-analyzer');
+      
+      grid.innerHTML = '';
+      otherProjects.slice(0, 4).forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'project-card';
+        
+        const tagsHtml = (p.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
+        
+        card.innerHTML = `
+          <div>
+            <div class="project-header">
+              <div class="project-icon">${p.icon || '📁'}</div>
+              <span class="project-badge">${p.badge || 'Project'}</span>
+            </div>
+            <h3 class="project-title">${p.title}</h3>
+            <p class="project-desc">${p.description}</p>
+          </div>
+          <div class="project-footer">
+            <div class="tag-list">
+              ${tagsHtml}
+            </div>
+            <div class="project-links">
+              <a href="${p.liveUrl}" ${p.liveUrl.startsWith('http') ? 'target="_blank"' : ''} class="btn btn-primary btn-sm" style="flex:1;">
+                Open Project →
+              </a>
+              ${p.githubUrl ? `
+                <a href="${p.githubUrl}" target="_blank" class="btn btn-secondary btn-sm" title="View Source">
+                  🐙 GitHub
+                </a>
+              ` : ''}
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Update Profile Bio if customized from Admin Panel
+    function loadProfileInfo() {
+      const profile = PortfolioData.getProfile();
+      if (profile && profile.bio) {
+        document.getElementById('heroBio').innerHTML = profile.bio;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderHomeProjects();
+      loadProfileInfo();
+    });
+  </script>
+</body>
+</html>
