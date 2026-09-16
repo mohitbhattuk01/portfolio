@@ -147,7 +147,7 @@
       <div id="tabEmailContent">
         <div id="stepEmailRequest">
           <p style="font-size: 0.86rem; color: #475569; margin-bottom: 14px; text-align: left; line-height: 1.5;">
-            We will send a 6-digit verification code (OTP) to your registered email: <strong>mohitbhatt2030@gmail.com</strong>
+            We will send a 6-digit verification code (OTP) to your registered email: <strong>pro.it2026dev@gmail.com</strong>
           </p>
           <button type="button" id="sendOtpBtn" onclick="sendRecoveryEmail()" class="btn btn-primary" style="width: 100%; padding: 11px;">
             📩 Send OTP to My Email
@@ -156,7 +156,7 @@
 
         <div id="stepVerifyOtp" style="display: none; text-align: left;">
           <div style="padding: 10px; background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 6px; font-size: 0.82rem; color: #065f46; margin-bottom: 14px;">
-            ✅ Verification OTP sent to <b>mohitbhatt2030@gmail.com</b>! Please check your inbox (and spam folder).
+            ✅ Verification OTP sent to <b>pro.it2026dev@gmail.com</b>! Please check your inbox (and spam folder).
           </div>
           <div class="form-group">
             <label style="font-size: 0.85rem; font-weight: 600;">6-Digit OTP from Email</label>
@@ -518,7 +518,7 @@
       sessionStorage.setItem('mohit_reset_otp_exp', (Date.now() + 10 * 60 * 1000).toString());
 
       try {
-        await fetch('https://formsubmit.co/ajax/mohitbhatt2030@gmail.com', {
+        await fetch('https://formsubmit.co/ajax/pro.it2026dev@gmail.com', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -526,7 +526,7 @@
           },
           body: JSON.stringify({
             name: 'Mohit Bhatt Portfolio System',
-            email: 'mohitbhatt2030@gmail.com',
+            email: 'pro.it2026dev@gmail.com',
             _subject: '🔐 Portfolio Admin Passcode Reset OTP: ' + otp,
             message: `Hello Mohit,\n\nYour 6-digit OTP to reset your Portfolio Admin Passcode is:\n\n👉  ${otp}  👈\n\nThis OTP is valid for 10 minutes.\nIf you did not request this, you can ignore this email.`
           })
@@ -539,7 +539,7 @@
       sendBtn.textContent = '📩 Send OTP to My Email';
       document.getElementById('stepEmailRequest').style.display = 'none';
       document.getElementById('stepVerifyOtp').style.display = 'block';
-      alert('✅ An OTP has been sent to mohitbhatt2030@gmail.com!\n\nPlease check your email inbox (or spam folder) and enter the 6-digit code.');
+      alert('✅ An OTP has been sent to pro.it2026dev@gmail.com!\n\nPlease check your email inbox (or spam folder) and enter the 6-digit code.');
     }
 
     // Verify OTP & Reset
