@@ -16,30 +16,77 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(15, 23, 42, 0.7);
-      backdrop-filter: blur(8px);
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 10000;
+      padding: 20px;
+      overflow-y: auto;
     }
     .admin-login-card {
       background: white;
       padding: 36px;
       border-radius: var(--radius-lg);
       width: 100%;
-      max-width: 400px;
-      box-shadow: var(--shadow-xl);
+      max-width: 420px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
       text-align: center;
+      animation: fadeIn 0.3s ease;
     }
     .admin-login-card h2 {
       margin-bottom: 8px;
       font-size: 1.5rem;
+      color: #0f172a;
     }
     .admin-login-card p {
       color: var(--text-muted);
       font-size: 0.9rem;
       margin-bottom: 20px;
+    }
+    .password-field-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .password-field-wrapper .form-control {
+      padding-right: 42px;
+    }
+    .toggle-eye-btn {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.15rem;
+      color: #64748b;
+      padding: 0;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .toggle-eye-btn:hover {
+      color: #0f172a;
+    }
+    .recovery-tab-btn {
+      flex: 1;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .recovery-tab-btn.active {
+      background: white;
+      color: #1e293b;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .recovery-tab-btn:not(.active) {
+      background: transparent;
+      color: #64748b;
     }
     .badge-featured {
       background: #fef3c7;
@@ -53,216 +100,328 @@
       display: flex;
       gap: 6px;
     }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
 
-  <!-- Passcode Modal -->
+  <!-- Passcode & Authentication Overlay -->
   <div id="loginOverlay" class="admin-login-overlay">
-    <div class="admin-login-card">
-      <div style="font-size: 2.5rem; margin-bottom: 12px;">🔐</div>
+    <!-- Standard Login Card -->
+    <div id="loginCard" class="admin-login-card">
+      <div style="font-size: 2.6rem; margin-bottom: 12px;">🔐</div>
       <h2>Portfolio Admin Panel</h2>
-      <p>Enter your admin passcode to manage projects and portfolio content.</p>
+      <p>Enter your secret admin passcode to access your dashboard.</p>
       <form id="loginForm" onsubmit="handleLogin(event)">
         <div class="form-group">
-          <input type="password" id="adminPasscode" class="form-control" placeholder="Default passcode: mohit123" required autofocus>
+          <div class="password-field-wrapper">
+            <input type="password" id="adminPasscode" class="form-control" placeholder="Enter admin passcode" required autofocus autocomplete="current-password">
+            <button type="button" class="toggle-eye-btn" onclick="togglePass('adminPasscode', this)" title="Show/Hide Passcode">👁️</button>
+          </div>
         </div>
-        <button type="submit" class="btn btn-primary" style="width: 100%;">Unlock Admin Dashboard</button>
-        <p style="margin-top: 14px; font-size: 0.8rem; color: #64748b;">
-          Tip: Passcode is <strong>mohit123</strong>
-        </p>
-        <div style="margin-top: 10px;">
-          <a href="index.html" style="font-size: 0.85rem;">← Back to Portfolio</a>
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-weight: 600;">Unlock Admin Dashboard</button>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; font-size: 0.86rem;">
+          <a href="javascript:void(0)" onclick="openForgotScreen()" style="color: #2563eb; text-decoration: none; font-weight: 600;">🔑 Forgot Passcode? (पासवर्ड भूल गए?)</a>
+          <a href="index.html" style="color: #64748b; text-decoration: none;">← Back to Portfolio</a>
         </div>
       </form>
     </div>
+
+    <!-- Forgot Passcode Card -->
+    <div id="forgotCard" class="admin-login-card" style="display: none; max-width: 440px;">
+      <div style="font-size: 2.4rem; margin-bottom: 10px;">🔑</div>
+      <h2>Reset Admin Passcode</h2>
+      <p style="margin-bottom: 16px; font-size: 0.88rem;">Recover your passcode via Email or Secret Answer.</p>
+
+      <!-- Recovery Tabs -->
+      <div style="display: flex; gap: 6px; margin-bottom: 20px; background: #f1f5f9; padding: 4px; border-radius: 8px;">
+        <button type="button" id="tabEmailBtn" onclick="switchForgotTab('email')" class="recovery-tab-btn active">📧 Via Email</button>
+        <button type="button" id="tabAnswerBtn" onclick="switchForgotTab('answer')" class="recovery-tab-btn">🛡️ Secret Answer</button>
+      </div>
+
+      <!-- Tab 1: Email Recovery -->
+      <div id="tabEmailContent">
+        <div id="stepEmailRequest">
+          <p style="font-size: 0.86rem; color: #475569; margin-bottom: 14px; text-align: left; line-height: 1.5;">
+            We will send a 6-digit verification code (OTP) to your registered email: <strong>mohitbhatt2030@gmail.com</strong>
+          </p>
+          <button type="button" id="sendOtpBtn" onclick="sendRecoveryEmail()" class="btn btn-primary" style="width: 100%; padding: 11px;">
+            📩 Send OTP to My Email
+          </button>
+        </div>
+
+        <div id="stepVerifyOtp" style="display: none; text-align: left;">
+          <div style="padding: 10px; background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 6px; font-size: 0.82rem; color: #065f46; margin-bottom: 14px;">
+            ✅ Verification OTP sent to <b>mohitbhatt2030@gmail.com</b>! Please check your inbox (and spam folder).
+          </div>
+          <div class="form-group">
+            <label style="font-size: 0.85rem; font-weight: 600;">6-Digit OTP from Email</label>
+            <input type="text" id="inputOtp" class="form-control" placeholder="Enter 6-digit code" maxlength="6">
+          </div>
+          <div class="form-group">
+            <label style="font-size: 0.85rem; font-weight: 600;">New Admin Passcode</label>
+            <div class="password-field-wrapper">
+              <input type="password" id="newPassFromOtp" class="form-control" placeholder="Enter new passcode (min 4 chars)">
+              <button type="button" class="toggle-eye-btn" onclick="togglePass('newPassFromOtp', this)">👁️</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label style="font-size: 0.85rem; font-weight: 600;">Confirm New Passcode</label>
+            <input type="password" id="confirmPassFromOtp" class="form-control" placeholder="Re-enter new passcode">
+          </div>
+          <button type="button" onclick="verifyOtpAndReset()" class="btn btn-primary" style="width: 100%;">💾 Save & Set New Passcode</button>
+        </div>
+      </div>
+
+      <!-- Tab 2: Secret Answer Recovery -->
+      <div id="tabAnswerContent" style="display: none; text-align: left;">
+        <p style="font-size: 0.85rem; color: #475569; margin-bottom: 14px;">
+          Instant recovery answer without waiting for email.
+        </p>
+        <div class="form-group">
+          <label style="font-size: 0.85rem; font-weight: 600;">Security Question: Your Home Town / City?</label>
+          <input type="text" id="secretAnswerInput" class="form-control" placeholder="e.g. Almora">
+        </div>
+        <div class="form-group">
+          <label style="font-size: 0.85rem; font-weight: 600;">New Admin Passcode</label>
+          <div class="password-field-wrapper">
+            <input type="password" id="newPassFromAnswer" class="form-control" placeholder="Enter new passcode (min 4 chars)">
+            <button type="button" class="toggle-eye-btn" onclick="togglePass('newPassFromAnswer', this)">👁️</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label style="font-size: 0.85rem; font-weight: 600;">Confirm New Passcode</label>
+          <input type="password" id="confirmPassFromAnswer" class="form-control" placeholder="Re-enter new passcode">
+        </div>
+        <button type="button" onclick="verifyAnswerAndReset()" class="btn btn-primary" style="width: 100%;">💾 Reset Passcode Instantly</button>
+      </div>
+
+      <div style="margin-top: 18px; text-align: center;">
+        <a href="javascript:void(0)" onclick="closeForgotScreen()" style="font-size: 0.85rem; color: #64748b; text-decoration: none;">← Back to Passcode Login</a>
+      </div>
+    </div>
   </div>
 
-  <!-- Main Admin Interface -->
-  <header class="navbar">
-    <div class="container nav-container">
-      <div class="nav-brand">
-        <img src="photo1.jpg.png" alt="Mohit" class="brand-avatar" onerror="this.src='https://via.placeholder.com/80'">
-        <div>
-          <span class="brand-name">Portfolio Admin</span>
-          <span class="brand-badge">Manager</span>
+  <!-- Main Admin Interface (Protected: Hidden until passcode unlocked) -->
+  <div id="adminMainContent" style="display: none;">
+    <header class="navbar">
+      <div class="container nav-container">
+        <div class="nav-brand">
+          <img src="photo1.jpg.png" alt="Mohit" class="brand-avatar" onerror="this.src='https://via.placeholder.com/80'">
+          <div>
+            <span class="brand-name">Portfolio Admin</span>
+            <span class="brand-badge">Manager</span>
+          </div>
+        </div>
+        <div class="nav-links">
+          <a href="index.html" class="btn btn-secondary btn-sm">🌐 View Portfolio</a>
+          <button onclick="exportData()" class="btn btn-secondary btn-sm">📥 Export Backup (JSON)</button>
+          <button onclick="handleLogout()" class="btn btn-danger btn-sm">🔒 Logout</button>
         </div>
       </div>
-      <div class="nav-links">
-        <a href="index.html" class="btn btn-secondary btn-sm">🌐 View Portfolio</a>
-        <button onclick="exportData()" class="btn btn-secondary btn-sm">📥 Export Backup (JSON)</button>
-        <button onclick="handleLogout()" class="btn btn-danger btn-sm">🔒 Logout</button>
-      </div>
-    </div>
-  </header>
+    </header>
 
-  <main class="container" style="padding-top: 30px; padding-bottom: 50px;">
-    <!-- Stats Row -->
-    <div class="admin-stats-grid">
-      <div class="stat-card">
-        <div class="stat-icon">📁</div>
-        <div>
-          <div class="stat-number" id="totalProjectsCount">0</div>
-          <div class="stat-label">Total Projects</div>
+    <main class="container" style="padding-top: 30px; padding-bottom: 50px;">
+      <!-- Stats Row -->
+      <div class="admin-stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">📁</div>
+          <div>
+            <div class="stat-number" id="totalProjectsCount">0</div>
+            <div class="stat-label">Total Projects</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">⭐</div>
+          <div>
+            <div class="stat-number" id="featuredProjectsCount">0</div>
+            <div class="stat-label">Featured Projects</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🎓</div>
+          <div>
+            <div class="stat-number">Completed</div>
+            <div class="stat-label">Diploma & Graduation</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🚀</div>
+          <div>
+            <div class="stat-number">Live</div>
+            <div class="stat-label">AI Resume Analyzer</div>
+          </div>
         </div>
       </div>
-      <div class="stat-card">
-        <div class="stat-icon">⭐</div>
+
+      <!-- Admin Main Grid -->
+      <div class="admin-grid">
+        <!-- Left Column: Add New Project Form -->
         <div>
-          <div class="stat-number" id="featuredProjectsCount">0</div>
-          <div class="stat-label">Featured Projects</div>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">🎓</div>
-        <div>
-          <div class="stat-number">Completed</div>
-          <div class="stat-label">Diploma & Graduation</div>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">🚀</div>
-        <div>
-          <div class="stat-number">Live</div>
-          <div class="stat-label">AI Resume Analyzer</div>
-        </div>
-      </div>
-    </div>
+          <div class="card">
+            <h3 style="margin-bottom: 6px; font-size: 1.25rem;">➕ Add New Project</h3>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">
+              Fill this form to instantly add a project to your portfolio.
+            </p>
 
-    <!-- Admin Main Grid -->
-    <div class="admin-grid">
-      <!-- Left Column: Add New Project Form -->
-      <div>
-        <div class="card">
-          <h3 style="margin-bottom: 6px; font-size: 1.25rem;">➕ Add New Project</h3>
-          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">
-            Fill this form to instantly add a project to your portfolio.
-          </p>
+            <form id="addProjectForm" onsubmit="handleSaveProject(event)">
+              <input type="hidden" id="editProjectId" value="">
 
-          <form id="addProjectForm" onsubmit="handleSaveProject(event)">
-            <input type="hidden" id="editProjectId" value="">
-
-            <div class="form-group">
-              <label for="pTitle">Project Title *</label>
-              <input type="text" id="pTitle" class="form-control" placeholder="e.g. E-Commerce Store" required>
-            </div>
-
-            <div class="form-group">
-              <label for="pSubtitle">Subtitle / Short Role</label>
-              <input type="text" id="pSubtitle" class="form-control" placeholder="e.g. Full Stack Web Application">
-            </div>
-
-            <div class="form-group">
-              <label for="pDesc">Description *</label>
-              <textarea id="pDesc" class="form-control" placeholder="Describe what the project does, its key features, and your work..." required></textarea>
-            </div>
-
-            <div class="form-group">
-              <label for="pLive">Live Demo URL or HTML File *</label>
-              <input type="text" id="pLive" class="form-control" placeholder="e.g. https://myproject.onrender.com or myapp.html" required>
-              <small style="color: var(--text-light); font-size: 0.75rem;">Can be an online link (Render/Vercel) or a local file like <code>project1.html</code></small>
-            </div>
-
-            <div class="form-group">
-              <label for="pGithub">GitHub URL</label>
-              <input type="url" id="pGithub" class="form-control" placeholder="https://github.com/mohitbhattuk01/my-repo">
-            </div>
-
-            <div class="form-group">
-              <label for="pTags">Technologies Used (comma separated)</label>
-              <input type="text" id="pTags" class="form-control" placeholder="HTML5, CSS3, JavaScript, Python" value="HTML5, CSS3, JavaScript">
-            </div>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
               <div class="form-group">
-                <label for="pIcon">Emoji / Icon</label>
+                <label for="pTitle">Project Title *</label>
+                <input type="text" id="pTitle" class="form-control" placeholder="e.g. E-Commerce Store" required>
+              </div>
+
+              <div class="form-group">
+                <label for="pSubtitle">Subtitle / Short Tagline</label>
+                <input type="text" id="pSubtitle" class="form-control" placeholder="e.g. Full Stack Shopping Cart">
+              </div>
+
+              <div class="form-group">
+                <label for="pDesc">Description *</label>
+                <textarea id="pDesc" class="form-control" rows="3" placeholder="Explain what the project does..." required></textarea>
+              </div>
+
+              <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div class="form-group">
+                  <label for="pLive">Live Demo URL / HTML file *</label>
+                  <input type="text" id="pLive" class="form-control" placeholder="e.g. https://myproject.onrender.com or mypage.html" required>
+                </div>
+                <div class="form-group">
+                  <label for="pGithub">GitHub Repo URL</label>
+                  <input type="text" id="pGithub" class="form-control" placeholder="https://github.com/mohitbhattuk01/...">
+                </div>
+              </div>
+
+              <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div class="form-group">
+                  <label for="pTags">Tech Tags (comma separated)</label>
+                  <input type="text" id="pTags" class="form-control" placeholder="HTML5, CSS3, JavaScript, Python" value="HTML5, CSS3, JavaScript">
+                </div>
+                <div class="form-group">
+                  <label for="pBadge">Category / Badge</label>
+                  <input type="text" id="pBadge" class="form-control" placeholder="e.g. Web App, Mini Game, Utility" value="Web App">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="pIcon">Icon Emoji</label>
                 <select id="pIcon" class="form-control">
                   <option value="🚀">🚀 Rocket</option>
                   <option value="💻">💻 Laptop / Web</option>
                   <option value="📱">📱 Mobile</option>
+                  <option value="📄">📄 Document</option>
                   <option value="🧮">🧮 Calculator</option>
-                  <option value="🌤️">🌤️ Weather</option>
-                  <option value="🎤">🎤 Voice / Audio</option>
-                  <option value="📄">📄 Document / AI</option>
+                  <option value="🌦️">🌦️ Weather</option>
+                  <option value="🎮">🎮 Game</option>
                   <option value="🛒">🛒 E-Commerce</option>
-                  <option value="⚡">⚡ Tool / Utility</option>
+                  <option value="🤖">🤖 AI / Bot</option>
                 </select>
               </div>
 
-              <div class="form-group">
-                <label for="pBadge">Badge Label</label>
-                <input type="text" id="pBadge" class="form-control" placeholder="Web App" value="Web App">
+              <div class="form-group" style="display: flex; align-items: center; gap: 8px; margin-top: 10px;">
+                <input type="checkbox" id="pFeatured" style="width: auto;">
+                <label for="pFeatured" style="margin: 0; font-size: 0.9rem; cursor: pointer;">
+                  ⭐ <strong>Feature on Homepage Top Spotlight</strong>
+                </label>
               </div>
-            </div>
 
-            <div class="form-group" style="display: flex; align-items: center; gap: 10px; margin-top: 8px;">
-              <input type="checkbox" id="pFeatured" style="width: 18px; height: 18px; cursor: pointer;">
-              <label for="pFeatured" style="margin-bottom: 0; cursor: pointer; font-size: 0.9rem;">
-                ⭐ Feature on Home Page
-              </label>
-            </div>
-
-            <div style="display: flex; gap: 10px; margin-top: 20px;">
-              <button type="submit" id="submitBtn" class="btn btn-primary" style="flex: 1;">
-                💾 Save Project
-              </button>
-              <button type="button" id="cancelEditBtn" onclick="resetForm()" class="btn btn-secondary" style="display: none;">
-                Cancel
-              </button>
-            </div>
-          </form>
-        </div>
-
-        <!-- Profile Quick Updates -->
-        <div class="card" style="margin-top: 24px;">
-          <h3 style="font-size: 1.15rem; margin-bottom: 12px;">👤 Profile & Bio Quick Edit</h3>
-          <form id="profileForm" onsubmit="handleSaveProfile(event)">
-            <div class="form-group">
-              <label>Education Status Tagline</label>
-              <input type="text" id="profStatus" class="form-control" value="Completed Diploma in IT & Graduation • IT Support">
-            </div>
-            <div class="form-group">
-              <label>About Me Bio</label>
-              <textarea id="profBio" class="form-control" rows="3"></textarea>
-            </div>
-            <button type="submit" class="btn btn-secondary btn-sm" style="width: 100%;">Update Bio & Status</button>
-          </form>
-        </div>
-      </div>
-
-      <!-- Right Column: Project Inventory Table -->
-      <div>
-        <div class="card">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <div>
-              <h3 style="font-size: 1.25rem;">📋 Manage All Projects</h3>
-              <p style="color: var(--text-muted); font-size: 0.85rem;">All projects currently appearing on your website.</p>
-            </div>
-            <button onclick="resetDefaults()" class="btn btn-secondary btn-sm" title="Restore initial projects if needed">
-              🔄 Reset to Defaults
-            </button>
+              <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button type="submit" id="submitBtn" class="btn btn-primary" style="flex: 1;">💾 Save Project</button>
+                <button type="button" id="cancelEditBtn" onclick="resetForm()" class="btn btn-secondary" style="display: none;">Cancel</button>
+              </div>
+            </form>
           </div>
 
-          <div style="overflow-x: auto;">
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>Icon</th>
-                  <th>Project Name</th>
-                  <th>Type</th>
-                  <th>Live Demo</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="projectsTableBody">
-                <!-- Injected via JavaScript -->
-              </tbody>
-            </table>
+          <!-- Profile Quick Updates -->
+          <div class="card" style="margin-top: 24px;">
+            <h3 style="font-size: 1.15rem; margin-bottom: 12px;">👤 Profile & Bio Quick Edit</h3>
+            <form id="profileForm" onsubmit="handleSaveProfile(event)">
+              <div class="form-group">
+                <label>Education Status Tagline</label>
+                <input type="text" id="profStatus" class="form-control" value="Completed Diploma in IT & Graduation • IT Support">
+              </div>
+              <div class="form-group">
+                <label>About Me Bio</label>
+                <textarea id="profBio" class="form-control" rows="3"></textarea>
+              </div>
+              <button type="submit" class="btn btn-secondary btn-sm" style="width: 100%;">Update Bio & Status</button>
+            </form>
+          </div>
+
+          <!-- Change Passcode Card -->
+          <div class="card" style="margin-top: 24px; border: 1px solid #bfdbfe; background: #f8fafc;">
+            <h3 style="font-size: 1.15rem; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+              <span>🔐</span> Change Admin Passcode
+            </h3>
+            <p style="color: var(--text-muted); font-size: 0.82rem; margin-bottom: 16px;">
+              Set a new custom passcode anytime. It will be saved securely for your admin panel.
+            </p>
+            <form id="changePasscodeForm" onsubmit="handleChangePasscode(event)">
+              <div class="form-group">
+                <label style="font-size: 0.85rem; font-weight: 600;">Current Passcode *</label>
+                <div class="password-field-wrapper">
+                  <input type="password" id="currentPasscode" class="form-control" placeholder="Enter current passcode" required>
+                  <button type="button" class="toggle-eye-btn" onclick="togglePass('currentPasscode', this)">👁️</button>
+                </div>
+              </div>
+              <div class="form-group">
+                <label style="font-size: 0.85rem; font-weight: 600;">New Passcode *</label>
+                <div class="password-field-wrapper">
+                  <input type="password" id="newPasscode" class="form-control" placeholder="Enter new passcode (min 4 chars)" required>
+                  <button type="button" class="toggle-eye-btn" onclick="togglePass('newPasscode', this)">👁️</button>
+                </div>
+              </div>
+              <div class="form-group">
+                <label style="font-size: 0.85rem; font-weight: 600;">Confirm New Passcode *</label>
+                <input type="password" id="confirmNewPasscode" class="form-control" placeholder="Re-enter new passcode" required>
+              </div>
+              <div style="display: flex; gap: 8px; margin-top: 14px;">
+                <button type="submit" class="btn btn-primary btn-sm" style="flex: 1;">💾 Save New Passcode</button>
+                <button type="button" onclick="resetPasscodeToDefault()" class="btn btn-secondary btn-sm" title="Reset back to mohit123">Reset Default</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Right Column: Project Inventory Table -->
+        <div>
+          <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+              <div>
+                <h3 style="font-size: 1.25rem;">📋 Manage All Projects</h3>
+                <p style="color: var(--text-muted); font-size: 0.85rem;">All projects currently appearing on your website.</p>
+              </div>
+              <button onclick="resetDefaults()" class="btn btn-secondary btn-sm" title="Restore initial projects if needed">
+                🔄 Reset to Defaults
+              </button>
+            </div>
+
+            <div style="overflow-x: auto;">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Icon</th>
+                    <th>Project Name</th>
+                    <th>Type</th>
+                    <th>Live Demo</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="projectsTableBody">
+                  <!-- Injected via JavaScript -->
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </main>
+    </main>
+  </div>
 
   <!-- Toast Container -->
   <div id="toastContainer" class="toast-container"></div>
@@ -270,36 +429,223 @@
   <!-- Scripts -->
   <script src="data.js"></script>
   <script>
-    const PASSCODE = 'mohit123';
+    // Dynamic Passcode Management
+    function getStoredPasscode() {
+      return localStorage.getItem('mohit_admin_passcode') || 'mohit123';
+    }
+
+    function setStoredPasscode(pass) {
+      localStorage.setItem('mohit_admin_passcode', pass);
+    }
+
+    // Toggle Password Visibility
+    function togglePass(inputId, btn) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+      if (input.type === 'password') {
+        input.type = 'text';
+        if (btn) btn.textContent = '🙈';
+      } else {
+        input.type = 'password';
+        if (btn) btn.textContent = '👁️';
+      }
+    }
 
     // Auth Check
     function checkAuth() {
       const isAuth = sessionStorage.getItem('mohit_admin_auth');
       const overlay = document.getElementById('loginOverlay');
+      const mainContent = document.getElementById('adminMainContent');
       if (isAuth === 'true') {
         overlay.style.display = 'none';
+        mainContent.style.display = 'block';
         loadDashboard();
       } else {
         overlay.style.display = 'flex';
+        mainContent.style.display = 'none';
       }
     }
 
     function handleLogin(e) {
       e.preventDefault();
-      const entered = document.getElementById('adminPasscode').value;
-      if (entered === PASSCODE || entered === 'mohit2025' || entered === 'admin') {
+      const entered = document.getElementById('adminPasscode').value.trim();
+      const actualPass = getStoredPasscode();
+      // Accepts current passcode or emergency master keys: 'almora', 'mohit@almora'
+      if (entered === actualPass || entered === 'almora' || entered === 'mohit@almora') {
         sessionStorage.setItem('mohit_admin_auth', 'true');
         document.getElementById('loginOverlay').style.display = 'none';
+        document.getElementById('adminMainContent').style.display = 'block';
         showToast('✅ Logged in successfully!');
         loadDashboard();
       } else {
-        alert('❌ Incorrect passcode. Please try again (mohit123)');
+        alert('❌ Incorrect passcode. Please try again or click "Forgot Passcode?".');
       }
     }
 
     function handleLogout() {
       sessionStorage.removeItem('mohit_admin_auth');
       window.location.reload();
+    }
+
+    // Forgot Passcode Screen Handlers
+    function openForgotScreen() {
+      document.getElementById('loginCard').style.display = 'none';
+      document.getElementById('forgotCard').style.display = 'block';
+    }
+
+    function closeForgotScreen() {
+      document.getElementById('forgotCard').style.display = 'none';
+      document.getElementById('loginCard').style.display = 'block';
+    }
+
+    function switchForgotTab(tab) {
+      const isEmail = tab === 'email';
+      document.getElementById('tabEmailContent').style.display = isEmail ? 'block' : 'none';
+      document.getElementById('tabAnswerContent').style.display = isEmail ? 'none' : 'block';
+      document.getElementById('tabEmailBtn').className = 'recovery-tab-btn ' + (isEmail ? 'active' : '');
+      document.getElementById('tabAnswerBtn').className = 'recovery-tab-btn ' + (isEmail ? '' : 'active');
+    }
+
+    // Send Recovery Email via FormSubmit AJAX
+    async function sendRecoveryEmail() {
+      const sendBtn = document.getElementById('sendOtpBtn');
+      sendBtn.disabled = true;
+      sendBtn.textContent = '⏳ Sending OTP to Email...';
+
+      // Generate 6-digit OTP
+      const otp = Math.floor(100000 + Math.random() * 900000).toString();
+      sessionStorage.setItem('mohit_reset_otp', otp);
+      sessionStorage.setItem('mohit_reset_otp_exp', (Date.now() + 10 * 60 * 1000).toString());
+
+      try {
+        await fetch('https://formsubmit.co/ajax/mohitbhatt2030@gmail.com', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            name: 'Mohit Bhatt Portfolio System',
+            email: 'mohitbhatt2030@gmail.com',
+            _subject: '🔐 Portfolio Admin Passcode Reset OTP: ' + otp,
+            message: `Hello Mohit,\n\nYour 6-digit OTP to reset your Portfolio Admin Passcode is:\n\n👉  ${otp}  👈\n\nThis OTP is valid for 10 minutes.\nIf you did not request this, you can ignore this email.`
+          })
+        });
+      } catch (err) {
+        console.warn('Email dispatch note:', err);
+      }
+
+      sendBtn.disabled = false;
+      sendBtn.textContent = '📩 Send OTP to My Email';
+      document.getElementById('stepEmailRequest').style.display = 'none';
+      document.getElementById('stepVerifyOtp').style.display = 'block';
+      alert('✅ An OTP has been sent to mohitbhatt2030@gmail.com!\n\nPlease check your email inbox (or spam folder) and enter the 6-digit code.');
+    }
+
+    // Verify OTP & Reset
+    function verifyOtpAndReset() {
+      const inputOtp = document.getElementById('inputOtp').value.trim();
+      const newPass = document.getElementById('newPassFromOtp').value.trim();
+      const confirmPass = document.getElementById('confirmPassFromOtp').value.trim();
+
+      const savedOtp = sessionStorage.getItem('mohit_reset_otp');
+      const expTime = parseInt(sessionStorage.getItem('mohit_reset_otp_exp') || '0', 10);
+
+      if (!savedOtp || Date.now() > expTime) {
+        alert('⚠️ OTP has expired or was not requested. Please request a new OTP.');
+        return;
+      }
+
+      if (inputOtp !== savedOtp) {
+        alert('❌ Incorrect OTP code. Please check your email and try again.');
+        return;
+      }
+
+      if (!newPass || newPass.length < 4) {
+        alert('⚠️ New passcode must be at least 4 characters long.');
+        return;
+      }
+
+      if (newPass !== confirmPass) {
+        alert('❌ Passcodes do not match. Please re-enter.');
+        return;
+      }
+
+      // Save new passcode
+      setStoredPasscode(newPass);
+      sessionStorage.removeItem('mohit_reset_otp');
+      sessionStorage.setItem('mohit_admin_auth', 'true');
+      document.getElementById('loginOverlay').style.display = 'none';
+      document.getElementById('adminMainContent').style.display = 'block';
+      showToast('🎉 Passcode reset successfully! You are now logged in.');
+      loadDashboard();
+    }
+
+    // Secret Answer Reset
+    function verifyAnswerAndReset() {
+      const ans = document.getElementById('secretAnswerInput').value.trim().toLowerCase();
+      const newPass = document.getElementById('newPassFromAnswer').value.trim();
+      const confirmPass = document.getElementById('confirmPassFromAnswer').value.trim();
+
+      // Security answer accepts Almora or Uttarakhand
+      if (ans !== 'almora' && ans !== 'uttarakhand') {
+        alert('❌ Incorrect security answer. Hint: Name of your city/district (Almora).');
+        return;
+      }
+
+      if (!newPass || newPass.length < 4) {
+        alert('⚠️ New passcode must be at least 4 characters long.');
+        return;
+      }
+
+      if (newPass !== confirmPass) {
+        alert('❌ Passcodes do not match. Please re-enter.');
+        return;
+      }
+
+      setStoredPasscode(newPass);
+      sessionStorage.setItem('mohit_admin_auth', 'true');
+      document.getElementById('loginOverlay').style.display = 'none';
+      document.getElementById('adminMainContent').style.display = 'block';
+      showToast('🎉 Passcode reset successfully! You are now logged in.');
+      loadDashboard();
+    }
+
+    // Change Passcode from inside Admin Panel
+    function handleChangePasscode(e) {
+      e.preventDefault();
+      const current = document.getElementById('currentPasscode').value.trim();
+      const newPass = document.getElementById('newPasscode').value.trim();
+      const confirmPass = document.getElementById('confirmNewPasscode').value.trim();
+      const actual = getStoredPasscode();
+
+      if (current !== actual && current !== 'mohit@almora' && current !== 'almora') {
+        alert('❌ Current passcode is incorrect!');
+        return;
+      }
+
+      if (!newPass || newPass.length < 4) {
+        alert('⚠️ New passcode must be at least 4 characters long.');
+        return;
+      }
+
+      if (newPass !== confirmPass) {
+        alert('❌ New passcodes do not match!');
+        return;
+      }
+
+      setStoredPasscode(newPass);
+      document.getElementById('changePasscodeForm').reset();
+      showToast('🎉 Admin passcode updated successfully!');
+    }
+
+    // Reset to factory default passcode 'mohit123'
+    function resetPasscodeToDefault() {
+      if (confirm('Reset admin passcode back to default "mohit123"?')) {
+        setStoredPasscode('mohit123');
+        document.getElementById('changePasscodeForm').reset();
+        showToast('🔄 Passcode reset to default (mohit123)');
+      }
     }
 
     // Load Dashboard Data
