@@ -112,20 +112,28 @@
   <div id="loginOverlay" class="admin-login-overlay">
     <!-- Standard Login Card -->
     <div id="loginCard" class="admin-login-card">
-      <div style="font-size: 2.6rem; margin-bottom: 12px;">🔐</div>
+      <!-- Secret 3-click trigger on lock icon for Mohit -->
+      <div id="secretLockIcon" onclick="handleSecretIconClick()" style="font-size: 2.6rem; margin-bottom: 12px; cursor: pointer; user-select: none;" title="Portfolio Security">🔐</div>
       <h2>Portfolio Admin Panel</h2>
       <p>Enter your secret admin passcode to access your dashboard.</p>
+      
+      <!-- Rate-limit Warning Banner -->
+      <div id="lockoutBanner" style="display: none; background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; padding: 10px; border-radius: 8px; font-size: 0.82rem; margin-bottom: 16px;">
+        ⚠️ Too many incorrect attempts. Screen locked for <span id="lockoutCountdown" style="font-weight: 700;">300</span>s.
+      </div>
+
       <form id="loginForm" onsubmit="handleLogin(event)">
         <div class="form-group">
           <div class="password-field-wrapper">
             <input type="password" id="adminPasscode" class="form-control" placeholder="Enter admin passcode" required autofocus autocomplete="current-password">
             <button type="button" class="toggle-eye-btn" onclick="togglePass('adminPasscode', this)" title="Show/Hide Passcode">👁️</button>
           </div>
+          <div id="attemptWarning" style="font-size: 0.78rem; color: #dc2626; margin-top: 5px; display: none; text-align: left;"></div>
         </div>
-        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-weight: 600;">Unlock Admin Dashboard</button>
+        <button type="submit" id="loginSubmitBtn" class="btn btn-primary" style="width: 100%; padding: 12px; font-weight: 600;">Unlock Admin Dashboard</button>
         
         <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; font-size: 0.86rem;">
-          <a href="javascript:void(0)" onclick="openForgotScreen()" style="color: #2563eb; text-decoration: none; font-weight: 600;">🔑 Forgot Passcode? (पासवर्ड भूल गए?)</a>
+          <a href="javascript:void(0)" onclick="openForgotScreen()" style="color: #64748b; text-decoration: none; font-size: 0.82rem;">🔑 Forgot / Recovery</a>
           <a href="index.html" style="color: #64748b; text-decoration: none;">← Back to Portfolio</a>
         </div>
       </form>
@@ -353,6 +361,33 @@
             </form>
           </div>
 
+          <!-- Resume Management Card -->
+          <div class="card" style="margin-top: 24px; border: 1px solid #c7d2fe; background: #fdfefe;">
+            <h3 style="font-size: 1.15rem; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+              <span>📄</span> Resume Management
+            </h3>
+            <p style="color: var(--text-muted); font-size: 0.82rem; margin-bottom: 14px;">
+              Manage your active portfolio resume (PDF file).
+            </p>
+            <div style="background: #f1f5f9; padding: 12px; border-radius: 8px; margin-bottom: 14px; font-size: 0.85rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span><strong>File:</strong> <code>resume.pdf</code></span>
+                <span style="color: #059669; font-weight: 600;">✅ Active</span>
+              </div>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <a href="resume.pdf" target="_blank" class="btn btn-secondary btn-sm" style="flex: 1; text-align: center;">
+                👁️ View Resume
+              </a>
+              <a href="resume.pdf" download class="btn btn-secondary btn-sm" style="flex: 1; text-align: center;">
+                📥 Download
+              </a>
+            </div>
+            <p style="color: #64748b; font-size: 0.78rem; margin-top: 10px; line-height: 1.4;">
+              💡 <strong>Tip:</strong> To update your resume, simply place your new PDF named <code>resume.pdf</code> into your portfolio folder.
+            </p>
+          </div>
+
           <!-- Change Passcode Card -->
           <div class="card" style="margin-top: 24px; border: 1px solid #bfdbfe; background: #f8fafc;">
             <h3 style="font-size: 1.15rem; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
@@ -456,6 +491,49 @@
       }
     }
 
+    // Secret 3-Click Trigger on 🔐 icon
+    let secretClickCount = 0;
+    let secretClickTimer = null;
+    function handleSecretIconClick() {
+      secretClickCount++;
+      clearTimeout(secretClickTimer);
+      secretClickTimer = setTimeout(() => { secretClickCount = 0; }, 2000);
+
+      if (secretClickCount >= 3) {
+        secretClickCount = 0;
+        openForgotScreen(true);
+      }
+    }
+
+    // Rate Limiting (Max 3 failed attempts, 5 minute lockout)
+    function checkLockout() {
+      const lockUntil = parseInt(localStorage.getItem('mohit_admin_lockout') || '0', 10);
+      const now = Date.now();
+      const banner = document.getElementById('lockoutBanner');
+      const passInput = document.getElementById('adminPasscode');
+      const submitBtn = document.getElementById('loginSubmitBtn');
+      const countdownSpan = document.getElementById('lockoutCountdown');
+
+      if (lockUntil > now) {
+        const remainingSec = Math.ceil((lockUntil - now) / 1000);
+        if (banner) banner.style.display = 'block';
+        if (countdownSpan) countdownSpan.textContent = remainingSec;
+        if (passInput) passInput.disabled = true;
+        if (submitBtn) submitBtn.disabled = true;
+        setTimeout(checkLockout, 1000);
+        return true;
+      } else {
+        if (banner && banner.style.display !== 'none') {
+          banner.style.display = 'none';
+        }
+        if (passInput) passInput.disabled = false;
+        if (submitBtn) submitBtn.disabled = false;
+        localStorage.removeItem('mohit_admin_lockout');
+        localStorage.setItem('mohit_failed_attempts', '0');
+        return false;
+      }
+    }
+
     // Auth Check
     function checkAuth() {
       const pass = localStorage.getItem('mohit_admin_passcode');
@@ -463,37 +541,67 @@
         localStorage.setItem('mohit_admin_passcode', 'Mohit@121');
       }
 
+      // Check if URL has ?recover=mohit
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('recover') === 'mohit') {
+        openForgotScreen(true);
+      }
+
+      checkLockout();
+
       const isAuth = sessionStorage.getItem('mohit_admin_auth');
       const overlay = document.getElementById('loginOverlay');
       const mainContent = document.getElementById('adminMainContent');
       if (isAuth === 'true') {
-        overlay.style.display = 'none';
-        mainContent.style.display = 'block';
+        if (overlay) overlay.style.display = 'none';
+        if (mainContent) mainContent.style.display = 'block';
         loadDashboard();
       } else {
-        overlay.style.display = 'flex';
-        mainContent.style.display = 'none';
+        if (overlay) overlay.style.display = 'flex';
+        if (mainContent) mainContent.style.display = 'none';
       }
     }
 
     function handleLogin(e) {
       e.preventDefault();
+
       const entered = document.getElementById('adminPasscode').value.trim();
       const actualPass = getStoredPasscode();
-      const validKeys = ['mohit@121', 'mohit@123', 'mohit123', 'mohit121', 'almora', 'mohit@almora', 'admin', 'admin123', '2026', 'mohit'];
-      
-      // Case-insensitive match allows 'Mohit@121', 'mohit@121', 'MOHIT@121', etc.
-      if (entered.toLowerCase() === actualPass.toLowerCase() || validKeys.includes(entered.toLowerCase())) {
+      const warningDiv = document.getElementById('attemptWarning');
+      const validMasterKeys = ['mohit@121', 'mohit@123', 'mohit123', 'mohit121', 'admin', 'admin123', 'almora', 'mohit', 'mohit@almora', '2026'];
+
+      // Always allow valid passcode (case-insensitive) or master keys (bypasses lockout)
+      if (entered.toLowerCase() === actualPass.toLowerCase() || validMasterKeys.includes(entered.toLowerCase())) {
         if (entered.toLowerCase() === 'mohit@121' || entered.toLowerCase() === 'mohit@123') {
           setStoredPasscode(entered);
         }
+        localStorage.removeItem('mohit_admin_lockout');
+        localStorage.setItem('mohit_failed_attempts', '0');
         sessionStorage.setItem('mohit_admin_auth', 'true');
         document.getElementById('loginOverlay').style.display = 'none';
         document.getElementById('adminMainContent').style.display = 'block';
         showToast('✅ Logged in successfully!');
         loadDashboard();
+        return;
+      }
+
+      // If user is locked out
+      if (checkLockout()) return;
+
+      let fails = parseInt(localStorage.getItem('mohit_failed_attempts') || '0', 10) + 1;
+      localStorage.setItem('mohit_failed_attempts', fails.toString());
+
+      if (fails >= 3) {
+        localStorage.setItem('mohit_admin_lockout', (Date.now() + 5 * 60 * 1000).toString());
+        if (warningDiv) warningDiv.style.display = 'none';
+        alert('🛑 3 incorrect attempts. Screen locked for 5 minutes.');
+        checkLockout();
       } else {
-        alert('❌ Incorrect passcode. Please try again or click "Forgot Passcode?".');
+        const remaining = 3 - fails;
+        if (warningDiv) {
+          warningDiv.textContent = `❌ Incorrect passcode! ${remaining} attempt(s) remaining before lock.`;
+          warningDiv.style.display = 'block';
+        }
       }
     }
 
@@ -502,15 +610,28 @@
       window.location.reload();
     }
 
-    // Forgot Passcode Screen Handlers
-    function openForgotScreen() {
-      document.getElementById('loginCard').style.display = 'none';
-      document.getElementById('forgotCard').style.display = 'block';
+    // Forgot Passcode Screen Handlers with Security PIN Protection
+    function openForgotScreen(bypassPin = false) {
+      if (!bypassPin) {
+        const pin = prompt('🔐 Owner Verification: Enter PIN or City name to open recovery\n(Default PIN: 2026 or Almora)');
+        if (!pin) return;
+        const normalized = pin.trim().toLowerCase();
+        if (normalized !== '2026' && normalized !== 'almora' && normalized !== 'mohit') {
+          alert('❌ Incorrect PIN or City. Access denied.');
+          return;
+        }
+      }
+      const loginCard = document.getElementById('loginCard');
+      const forgotCard = document.getElementById('forgotCard');
+      if (loginCard) loginCard.style.display = 'none';
+      if (forgotCard) forgotCard.style.display = 'block';
     }
 
     function closeForgotScreen() {
-      document.getElementById('forgotCard').style.display = 'none';
-      document.getElementById('loginCard').style.display = 'block';
+      const loginCard = document.getElementById('loginCard');
+      const forgotCard = document.getElementById('forgotCard');
+      if (forgotCard) forgotCard.style.display = 'none';
+      if (loginCard) loginCard.style.display = 'block';
     }
 
     function switchForgotTab(tab) {

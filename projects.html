@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects - Mohit Bhatt</title>
+  <!-- Modern Clean Styles -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="nav-brand">
+        <img src="photo1.jpg.png" alt="Mohit Bhatt" class="brand-avatar" onerror="this.src='https://via.placeholder.com/80'">
+        <span class="brand-name">Mohit Bhatt</span>
+      </a>
+
+      <button class="mobile-toggle" onclick="toggleMenu()" aria-label="Toggle navigation">☰</button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-item">Home</a></li>
+        <li><a href="projects.html" class="nav-item active">Projects</a></li>
+        <li><a href="resume.html" class="nav-item">Resume</a></li>
+        <li><a href="contact.html" class="nav-item">Contact</a></li>
+        <li><a href="admin.html" class="nav-btn-admin">⚙️ Admin</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header style="background: white; border-bottom: 1px solid var(--border); padding: 40px 0;">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+      <div>
+        <h1 style="font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em;">Projects & Creations</h1>
+        <p style="color: var(--text-muted); font-size: 1.05rem;">A collection of web applications, AI utilities, and interactive software.</p>
+      </div>
+      <div>
+        <a href="admin.html" class="btn btn-primary btn-sm">
+          ➕ Add / Manage Projects (Admin)
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top: 40px; padding-bottom: 60px;">
+
+    <!-- ⭐ FEATURED: Final Year Project (Render Link Preserved) -->
+    <div class="section-header">
+      <h2>⭐ Featured Final Year Project</h2>
+      <p>Deployed live on cloud and actively accessible worldwide</p>
+    </div>
+
+    <div class="featured-card">
+      <div class="featured-badge-bar">
+        <span class="badge-gold">🏆 Final Year Project</span>
+        <span class="badge-render">
+          <span class="pulse-dot"></span> Live on Render
+        </span>
+      </div>
+
+      <div class="featured-content">
+        <div class="featured-info">
+          <h3>AI Resume Analyzer</h3>
+          <div class="featured-subtitle">Smart Resume Screening & Ranking System</div>
+          <p class="featured-desc">
+            An AI-powered web application that automatically analyzes, scores, and ranks resumes based on job descriptions. Built as my Diploma Final Year Project using Python, Flask, and NLP techniques.
+          </p>
+          <ul class="featured-highlights">
+            <li>📊 Smart resume scoring & candidate ranking based on keywords</li>
+            <li>🔍 Precision keyword matching with customized job descriptions</li>
+            <li>👨‍💼 Admin panel with comprehensive applicant management</li>
+            <li>📁 PDF resume upload, parsing, and in-browser preview</li>
+            <li>✉️ Real-time status updates and applicant filtering</li>
+          </ul>
+          <div class="tag-list">
+            <span class="tag tag-primary">Python</span>
+            <span class="tag tag-primary">Flask</span>
+            <span class="tag tag-primary">NLP / AI</span>
+            <span class="tag">HTML5</span>
+            <span class="tag">CSS3</span>
+            <span class="tag">JSON DB</span>
+          </div>
+        </div>
+
+        <div class="featured-cta-box">
+          <a href="https://resume-screening-systemgunicorn-app-app.onrender.com/" target="_blank" class="btn btn-live">
+            🚀 Open Live Demo
+          </a>
+          <a href="https://github.com/mohitbhattuk01" target="_blank" class="btn btn-github">
+            🐙 View on GitHub
+          </a>
+          <p class="hosting-note">
+            ⚠️ Render free tier may take 30–60 seconds to spin up on cold start.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- All Other Projects -->
+    <div class="section-header" style="margin-top: 40px;">
+      <h2>🛠️ All Projects & Applications</h2>
+      <p>Interactive web apps, tools, and calculators</p>
+    </div>
+
+    <div class="projects-grid" id="allProjectsGrid">
+      <!-- Dynamically populated from data.js -->
+    </div>
+
+    <!-- Admin Panel Callout -->
+    <div class="card" style="margin-top: 48px; background: linear-gradient(to right, #ffffff, #eff6ff); border: 2px dashed #bfdbfe; text-align: center; padding: 36px 24px;">
+      <div style="font-size: 2.5rem; margin-bottom: 12px;">⚙️</div>
+      <h3 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 8px;">Want to add or modify a project?</h3>
+      <p style="color: var(--text-muted); max-width: 500px; margin: 0 auto 20px;">
+        Use your new Admin Panel to add new projects, update existing details, or remove projects anytime without editing code!
+      </p>
+      <a href="admin.html" class="btn btn-primary">
+        🔐 Open Admin Dashboard
+      </a>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <h4>Mohit Bhatt</h4>
+          <p>Web Developer | Diploma in IT (Completed) • Pursuing Graduation</p>
+        </div>
+
+        <div class="social-links">
+          <a href="https://github.com/mohitbhattuk01" target="_blank" class="social-link" title="GitHub">🐙</a>
+          <a href="https://www.linkedin.com/in/mohit-bhatt-almora" target="_blank" class="social-link" title="LinkedIn">💼</a>
+          <a href="https://www.instagram.com/mohitbhattuk01" target="_blank" class="social-link" title="Instagram">📸</a>
+          <a href="https://www.youtube.com/@MohitBhattji-uk01" target="_blank" class="social-link" title="YouTube">▶️</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2025-2026 Mohit Bhatt. All rights reserved.</div>
+        <div>
+          <a href="admin.html" style="color: var(--text-light); font-size: 0.8rem;">⚙️ Admin Dashboard</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="data.js"></script>
+  <script>
+    function toggleMenu() {
+      const nav = document.getElementById('navLinks');
+      nav.classList.toggle('show');
+    }
+
+    // Render All Projects Dynamically
+    function renderProjects() {
+      const grid = document.getElementById('allProjectsGrid');
+      const projects = PortfolioData.getProjects();
+      
+      // Filter out AI Resume Analyzer as it is featured prominently above
+      const list = projects.filter(p => p.id !== 'ai-resume-analyzer');
+      
+      grid.innerHTML = '';
+      list.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'project-card';
+        
+        const tagsHtml = (p.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
+        
+        card.innerHTML = `
+          <div>
+            <div class="project-header">
+              <div class="project-icon">${p.icon || '📁'}</div>
+              <span class="project-badge">${p.badge || 'Web App'}</span>
+            </div>
+            <h3 class="project-title">${p.title}</h3>
+            <p class="project-desc">${p.description}</p>
+          </div>
+          <div class="project-footer">
+            <div class="tag-list">
+              ${tagsHtml}
+            </div>
+            <div class="project-links">
+              <a href="${p.liveUrl}" ${p.liveUrl.startsWith('http') ? 'target="_blank"' : ''} class="btn btn-primary btn-sm" style="flex:1;">
+                Open Project →
+              </a>
+              ${p.githubUrl ? `
+                <a href="${p.githubUrl}" target="_blank" class="btn btn-secondary btn-sm" title="View Source">
+                  🐙 GitHub
+                </a>
+              ` : ''}
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', renderProjects);
+  </script>
+</body>
+</html>

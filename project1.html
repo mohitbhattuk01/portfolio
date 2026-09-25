@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator - Mohit Bhatt</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* Radha Krishna Background */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTEyL3Jhd3BpeGVsX29mZmljZV8zM19waG90b19vZl9yYWRoYV9rcmlzaG5hX2luX2EgcGxheWZ1bF9tb29kX2lzb2xhdGVkX182YzU1OT亚马-ODU4LTQ2YTMtYjY1Yy1jZjg4ZjY5YzQ1M2NfMS5qcGc.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0.2; /* Light effect */
+      z-index: -1;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    header h1 {
+      font-size: 42px;
+      margin-bottom: 5px;
+    }
+
+    header p {
+      font-size: 18px;
+      opacity: 0.95;
+    }
+
+    /* Navigation */
+    nav {
+      background: white;
+      padding: 12px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    nav a {
+      color: #1e3c72;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: bold;
+      font-size: 16px;
+      padding: 6px 15px;
+      border-radius: 20px;
+      transition: all 0.3s;
+    }
+
+    nav a:hover {
+      background: #1e3c72;
+      color: white;
+    }
+
+    nav a.active {
+      background: #1e3c72;
+      color: white;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 60vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Show Button */
+    .show-btn-container {
+      text-align: center;
+    }
+
+    .show-btn {
+      background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+      color: white;
+      border: none;
+      padding: 18px 45px;
+      font-size: 24px;
+      font-weight: bold;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      transition: all 0.3s;
+      border: 3px solid white;
+    }
+
+    .show-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+    }
+
+    /* Calculator Card */
+    .calculator-card {
+      background: white;
+      border-radius: 25px;
+      padding: 30px 25px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      width: 400px;
+      border: 3px solid #1e3c72;
+      position: relative;
+      display: none;
+      margin: 0 auto;
+    }
+
+    .calculator-card.show {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .calculator-card h2 {
+      color: #1e3c72;
+      font-size: 28px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    /* Display */
+    .display-container {
+      margin-bottom: 20px;
+    }
+
+    #display {
+      width: 100%;
+      padding: 15px;
+      font-size: 28px;
+      text-align: right;
+      border: 3px solid #1e3c72;
+      border-radius: 12px;
+      background: #f8f9fa;
+      color: #333;
+      font-weight: bold;
+      outline: none;
+      height: 70px;
+    }
+
+    /* Keyboard Hint */
+    .keyboard-hint {
+      background: #e8f4ff;
+      padding: 8px;
+      border-radius: 8px;
+      margin: 10px 0;
+      text-align: center;
+      color: #1e3c72;
+      font-size: 13px;
+      border: 1px solid #1e3c72;
+    }
+
+    .keyboard-hint span {
+      background: #1e3c72;
+      color: white;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin: 0 3px;
+      font-size: 11px;
+    }
+
+    /* Buttons Grid */
+    .buttons-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 15px;
+      font-size: 20px;
+      font-weight: bold;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: #f0f0f0;
+      color: #333;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      min-height: 60px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-number {
+      background: #e3f2fd;
+      color: #1e3c72;
+    }
+
+    .btn-operator {
+      background: #ff9800;
+      color: white;
+    }
+
+    .btn-operator:hover {
+      background: #f57c00;
+    }
+
+    .btn-clear {
+      background: #dc3545;
+      color: white;
+    }
+
+    .btn-clear:hover {
+      background: #c82333;
+    }
+
+    .btn-backspace {
+      background: #ffc107;
+      color: #333;
+    }
+
+    .btn-backspace:hover {
+      background: #e0a800;
+    }
+
+    .btn-equal {
+      background: #28a745;
+      color: white;
+      grid-column: span 2;
+    }
+
+    .btn-equal:hover {
+      background: #218838;
+    }
+
+    .btn-zero {
+      grid-column: span 2;
+    }
+
+    /* Footer */
+    footer {
+      background: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 30px;
+      border-top: 5px solid #1e3c72;
+      position: relative;
+      z-index: 1;
+    }
+
+    .social-links a {
+      color: #1e3c72;
+      text-decoration: none;
+      margin: 0 12px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .copyright {
+      color: #999;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+
+    /* Radha Krishna Credit */
+    .photo-credit {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(255,255,255,0.9);
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 14px;
+      color: #1e3c72;
+      font-weight: bold;
+      z-index: 2;
+      border: 2px solid #ff9800;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .photo-credit i {
+      color: #ff9800;
+      margin-right: 5px;
+    }
+
+    @media (max-width: 480px) {
+      .calculator-card {
+        width: 100%;
+        max-width: 380px;
+        padding: 20px 15px;
+      }
+      
+      .btn {
+        padding: 12px;
+        font-size: 18px;
+        min-height: 50px;
+      }
+      
+      .show-btn {
+        padding: 15px 30px;
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Radha Krishna Credit -->
+  <div class="photo-credit">
+    <i>🕉️</i> 
+  </div>
+
+  <!-- Header -->
+  <header>
+    <h1>Calculator App</h1>
+    <p>by Mohit Bhatt</p>
+  </header>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="projects.html" class="active">Projects</a>
+    <a href="resume.html">Resume</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+
+  <!-- Main Container -->
+  <div class="container">
+    <!-- Show Button -->
+    <div class="show-btn-container" id="showBtnContainer">
+      <button class="show-btn" onclick="showCalculator()">
+        🧮 Open Calculator
+      </button>
+      <p style="color: white; margin-top: 15px; font-size: 14px; text-shadow: 1px 1px 2px black;">
+        Click button → Popup message → Calculator opens
+      </p>
+    </div>
+
+    <!-- Calculator (Initially Hidden) -->
+    <div class="calculator-card" id="calculator">
+      <h2>📱 Calculator</h2>
+
+      <!-- Keyboard Hint -->
+      <div class="keyboard-hint">
+        <i>⌨️</i> Keys: 
+        <span>0-9</span> 
+        <span>+ - * /</span>
+        <span>Enter</span>
+        <span>⌫</span>
+        <span>Esc</span>
+      </div>
+
+      <!-- Display -->
+      <div class="display-container">
+        <input type="text" id="display" readonly placeholder="0">
+      </div>
+
+      <!-- Buttons -->
+      <div class="buttons-grid">
+        <button class="btn btn-clear" onclick="clearDisplay()">C</button>
+        <button class="btn btn-backspace" onclick="backspace()">⌫</button>
+        <button class="btn btn-operator" onclick="appendOperator('/')">÷</button>
+        <button class="btn btn-operator" onclick="appendOperator('*')">×</button>
+        
+        <button class="btn btn-number" onclick="appendNumber('7')">7</button>
+        <button class="btn btn-number" onclick="appendNumber('8')">8</button>
+        <button class="btn btn-number" onclick="appendNumber('9')">9</button>
+        <button class="btn btn-operator" onclick="appendOperator('-')">−</button>
+        
+        <button class="btn btn-number" onclick="appendNumber('4')">4</button>
+        <button class="btn btn-number" onclick="appendNumber('5')">5</button>
+        <button class="btn btn-number" onclick="appendNumber('6')">6</button>
+        <button class="btn btn-operator" onclick="appendOperator('+')">+</button>
+        
+        <button class="btn btn-number" onclick="appendNumber('1')">1</button>
+        <button class="btn btn-number" onclick="appendNumber('2')">2</button>
+        <button class="btn btn-number" onclick="appendNumber('3')">3</button>
+        <button class="btn btn-equal" onclick="calculate()">=</button>
+        
+        <button class="btn btn-number btn-zero" onclick="appendNumber('0')">0</button>
+        <button class="btn btn-number" onclick="appendNumber('.')">.</button>
+      </div>
+      
+      <!-- Radha Krishna Message -->
+      <div style="text-align: center; margin-top: 15px; color: #ff9800; font-size: 14px; font-weight: bold;">
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="social-links">
+      <a href="https://www.instagram.com/mohitbhattuk01" target="_blank">Instagram</a> |
+      <a href="https://www.facebook.com/mohitbhatt" target="_blank">Facebook</a> |
+      <a href="https://www.youtube.com/@MohitBhattji-uk01" target="_blank">YouTube</a> |
+      <a href="https://www.linkedin.com/in/mohit-bhatt-almora" target="_blank">LinkedIn</a>
+    </div>
+    <p class="copyright">© 2025 Mohit Bhatt | राधे कृष्णा</p>
+  </footer>
+
+  <script>
+    // Show calculator with POPUP
+    function showCalculator() {
+      // Pehle popup message
+      alert('🙏 राधे राधे 🙏\nWelcome to Calculator!');
+      
+      // Phir calculator show karo
+      document.getElementById('calculator').classList.add('show');
+      
+      // Hide the show button
+      document.getElementById('showBtnContainer').style.display = 'none';
+    }
+
+    // Calculator variables
+    const display = document.getElementById('display');
+    let lastResult = false;
+
+    // Number buttons
+    function appendNumber(num) {
+      if(lastResult) {
+        display.value = '';
+        lastResult = false;
+      }
+      
+      if(num === '.' && display.value.includes('.')) {
+        return;
+      }
+      
+      display.value += num;
+    }
+
+    // Operator buttons
+    function appendOperator(op) {
+      if(display.value === '' && op !== '-') {
+        return;
+      }
+      
+      const lastChar = display.value.slice(-1);
+      if(['+', '-', '*', '/'].includes(lastChar)) {
+        display.value = display.value.slice(0, -1) + op;
+      } else {
+        display.value += op;
+      }
+      lastResult = false;
+    }
+
+    // Clear display
+    function clearDisplay() {
+      display.value = '';
+      lastResult = false;
+    }
+
+    // Backspace
+    function backspace() {
+      display.value = display.value.slice(0, -1);
+    }
+
+    // Calculate
+    function calculate() {
+      if(display.value === '') return;
+      
+      try {
+        let expression = display.value.replace(/×/g, '*').replace(/÷/g, '/');
+        let result = eval(expression);
+        result = Math.round(result * 1000000) / 1000000;
+        display.value = result;
+        lastResult = true;
+      } catch {
+        alert('Invalid Expression!');
+        display.value = '';
+      }
+    }
+
+    // KEYBOARD SUPPORT
+    document.addEventListener('keydown', function(event) {
+      if(!document.getElementById('calculator').classList.contains('show')) {
+        return;
+      }
+      
+      const key = event.key;
+      
+      if(key >= '0' && key <= '9') {
+        appendNumber(key);
+      }
+      else if(key === '+') {
+        appendOperator('+');
+      }
+      else if(key === '-') {
+        appendOperator('-');
+      }
+      else if(key === '*') {
+        appendOperator('*');
+      }
+      else if(key === '/') {
+        event.preventDefault();
+        appendOperator('/');
+      }
+      else if(key === '.') {
+        appendNumber('.');
+      }
+      else if(key === 'Enter' || key === '=') {
+        event.preventDefault();
+        calculate();
+      }
+      else if(key === 'Backspace') {
+        backspace();
+      }
+      else if(key === 'Escape') {
+        clearDisplay();
+      }
+      else if(key === 'ArrowUp' || key === 'ArrowDown') {
+        event.preventDefault();
+      }
+    });
+  </script>
+</body>
+</html>

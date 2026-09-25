@@ -142,7 +142,7 @@ const DEFAULT_PORTFOLIO_DATA = {
   ]
 };
 
-const STORAGE_KEY = 'mohit_portfolio_data_v4';
+const STORAGE_KEY = 'mohit_portfolio_data_v5';
 
 // Portfolio Data Manager API
 const PortfolioData = {
@@ -155,6 +155,11 @@ const PortfolioData = {
         return DEFAULT_PORTFOLIO_DATA;
       }
       const parsed = JSON.parse(stored);
+      // Auto-update if data.js has newer version than localStorage
+      if (DEFAULT_PORTFOLIO_DATA.version && (!parsed.version || DEFAULT_PORTFOLIO_DATA.version > parsed.version)) {
+        this.saveAll(DEFAULT_PORTFOLIO_DATA);
+        return DEFAULT_PORTFOLIO_DATA;
+      }
       // Ensure the Render project always exists
       const hasRenderProj = parsed.projects && parsed.projects.some(p => p.id === 'ai-resume-analyzer');
       if (!hasRenderProj) {
