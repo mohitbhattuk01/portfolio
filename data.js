@@ -41,10 +41,10 @@ const DEFAULT_PORTFOLIO_DATA = {
     },
     {
       id: "diploma",
-      qualification: "Diploma in Information Technology",
+      qualification: "3-Year Diploma in Information Technology",
       institute: "Government Polytechnic Nainital (GP Nainital)",
       board: "Uttarakhand Board of Technical Education (UBTER)",
-      duration: "2023 - 2026",
+      duration: "Completed",
       status: "Completed"
     },
     {

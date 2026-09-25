@@ -343,7 +343,7 @@
             <form id="profileForm" onsubmit="handleSaveProfile(event)">
               <div class="form-group">
                 <label>Education Status Tagline</label>
-                <input type="text" id="profStatus" class="form-control" value="Completed Diploma in IT & Graduation • IT Support">
+                <input type="text" id="profStatus" class="form-control" value="3-Year Diploma in IT & Graduation (Completed) • Web Developer">
               </div>
               <div class="form-group">
                 <label>About Me Bio</label>
@@ -679,7 +679,7 @@
       document.getElementById('featuredProjectsCount').textContent = projects.filter(p => p.featured).length;
 
       // Profile Form
-      document.getElementById('profStatus').value = profile.status || "Completed Diploma • Pursuing Graduation";
+      document.getElementById('profStatus').value = profile.status || "3-Year Diploma in IT & Graduation (Completed) • Web Developer";
       document.getElementById('profBio').value = profile.bio || "";
 
       // Projects Table
