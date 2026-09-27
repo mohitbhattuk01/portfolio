@@ -7,9 +7,9 @@ const DEFAULT_PORTFOLIO_DATA = {
   version: 1,
   profile: {
     name: "Mohit Bhatt",
-    tagline: "Cloud Data Organization & Backup | Website Developer | IT Support",
-    bio: "Hello! I'm Mohit Bhatt from Almora, Uttarakhand. I specialize in Cloud Data Organization & Backup, and Modern Website Development. I manage cloud storage systems, secure data backups, file synchronization, and build high-performance websites. With a completed Diploma in Information Technology and Graduation, I provide end-to-end IT support and web solutions.",
-    status: "Cloud Data & Backup • Website Developer • Delhi NCR, India",
+    tagline: "Website Developer | Full-Stack & Python | IT Support",
+    bio: "Hello! I'm Mohit Bhatt from Almora, Uttarakhand. I specialize in Modern Website Development and Software Solutions. I build high-performance websites and full-stack web applications. With a completed Diploma in Information Technology and Graduation, I provide modern web solutions and technical software support.",
+    status: "Website Developer • Full-Stack & Python • Almora, Uttarakhand",
     location: "Delhi NCR, India (Native: Almora, Uttarakhand)",
     phone: "+91 6399079567",
     email: "mohitbhatt2030@gmail.com",
@@ -22,12 +22,12 @@ const DEFAULT_PORTFOLIO_DATA = {
   experience: [
     {
       id: "exp-1",
-      role: "Cloud Data Organization, Backup & Web Development",
-      organization: "Cloud & Web Solutions",
+      role: "Website Development & Software Projects",
+      organization: "Web & Software Solutions",
       location: "Almora, Uttarakhand",
       duration: "Present (Currently Working)",
-      description: "Administering cloud storage architectures, automated data backups, secure file sharing, cross-device data sync, and developing modern responsive websites.",
-      skills: ["Cloud Data Organization", "Backup & Recovery", "Website Development", "IT Support", "Data Synchronization"]
+      description: "Developing modern responsive websites, AI-powered web tools, UI/UX designs, and Python backend services.",
+      skills: ["Website Development", "Python", "JavaScript", "HTML5 & CSS3", "Flask", "Full-Stack"]
     }
   ],
   education: [
