@@ -112,16 +112,22 @@
   <div id="loginOverlay" class="admin-login-overlay">
     <!-- Standard Login Card -->
     <div id="loginCard" class="admin-login-card">
-      <!-- Secret 3-click trigger on lock icon for Mohit -->
       <div id="secretLockIcon" onclick="handleSecretIconClick()" style="font-size: 2.6rem; margin-bottom: 12px; cursor: pointer; user-select: none;" title="Portfolio Security">🔐</div>
       <h2>Portfolio Admin Panel</h2>
-      <p>Enter your secret admin passcode to access your dashboard.</p>
+      <p style="margin-bottom: 14px;">Enter your admin passcode or change it anytime.</p>
+
+      <!-- Navigation Tabs: Login vs Change Passcode -->
+      <div style="display: flex; gap: 6px; margin-bottom: 20px; background: #f1f5f9; padding: 4px; border-radius: 8px;">
+        <button type="button" id="tabMainLoginBtn" onclick="switchLoginTab('login')" class="recovery-tab-btn active">🔓 Login</button>
+        <button type="button" id="tabMainChangeBtn" onclick="switchLoginTab('change')" class="recovery-tab-btn">✨ Change Passcode</button>
+      </div>
       
       <!-- Rate-limit Warning Banner -->
       <div id="lockoutBanner" style="display: none; background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; padding: 10px; border-radius: 8px; font-size: 0.82rem; margin-bottom: 16px;">
         ⚠️ Too many incorrect attempts. Screen locked for <span id="lockoutCountdown" style="font-weight: 700;">300</span>s.
       </div>
 
+      <!-- Panel 1: Login Form -->
       <form id="loginForm" onsubmit="handleLogin(event)">
         <div class="form-group">
           <div class="password-field-wrapper">
@@ -135,6 +141,32 @@
         <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; font-size: 0.86rem;">
           <a href="javascript:void(0)" onclick="openForgotScreen()" style="color: #64748b; text-decoration: none; font-size: 0.82rem;">🔑 Forgot / Recovery</a>
           <a href="index.html" style="color: #64748b; text-decoration: none;">← Back to Portfolio</a>
+        </div>
+      </form>
+
+      <!-- Panel 2: Quick Change Passcode Form -->
+      <form id="quickChangeForm" onsubmit="handleQuickChangePasscode(event)" style="display: none; text-align: left;">
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label style="font-size: 0.85rem; font-weight: 600;">Current Passcode / Master Key</label>
+          <div class="password-field-wrapper">
+            <input type="password" id="quickCurrentPasscode" class="form-control" placeholder="Enter current passcode or 'admin@121'" required>
+            <button type="button" class="toggle-eye-btn" onclick="togglePass('quickCurrentPasscode', this)">👁️</button>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label style="font-size: 0.85rem; font-weight: 600;">New Passcode *</label>
+          <div class="password-field-wrapper">
+            <input type="password" id="quickNewPasscode" class="form-control" placeholder="Enter new passcode (min 3 chars)" required>
+            <button type="button" class="toggle-eye-btn" onclick="togglePass('quickNewPasscode', this)">👁️</button>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom: 18px;">
+          <label style="font-size: 0.85rem; font-weight: 600;">Confirm New Passcode *</label>
+          <input type="password" id="quickConfirmPasscode" class="form-control" placeholder="Re-enter new passcode" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-weight: 600;">💾 Save New Passcode</button>
+        <div style="text-align: center; margin-top: 16px;">
+          <a href="javascript:void(0)" onclick="switchLoginTab('login')" style="color: #64748b; text-decoration: none; font-size: 0.85rem;">← Back to Login</a>
         </div>
       </form>
     </div>
@@ -478,6 +510,53 @@
       localStorage.setItem('mohit_admin_passcode', pass);
     }
 
+    // Tab Switcher between Login and Quick Change Passcode
+    function switchLoginTab(mode) {
+      const isLogin = mode === 'login';
+      const loginForm = document.getElementById('loginForm');
+      const quickForm = document.getElementById('quickChangeForm');
+      const tabLogin = document.getElementById('tabMainLoginBtn');
+      const tabChange = document.getElementById('tabMainChangeBtn');
+
+      if (loginForm) loginForm.style.display = isLogin ? 'block' : 'none';
+      if (quickForm) quickForm.style.display = isLogin ? 'none' : 'block';
+      if (tabLogin) tabLogin.className = 'recovery-tab-btn ' + (isLogin ? 'active' : '');
+      if (tabChange) tabChange.className = 'recovery-tab-btn ' + (isLogin ? '' : 'active');
+    }
+
+    // Change passcode directly from login card
+    function handleQuickChangePasscode(e) {
+      e.preventDefault();
+      const current = document.getElementById('quickCurrentPasscode').value.trim();
+      const newPass = document.getElementById('quickNewPasscode').value.trim();
+      const confirmPass = document.getElementById('quickConfirmPasscode').value.trim();
+      const actual = getStoredPasscode();
+      const validMasterKeys = ['admin@121', 'mohit@121', 'mohit@123', 'mohit123', 'mohit121', 'almora', 'mohit@almora', 'mohit', 'admin', 'admin123', '2026'];
+
+      const isCurrentValid = (current.toLowerCase() === actual.toLowerCase()) || validMasterKeys.includes(current.toLowerCase());
+
+      if (!isCurrentValid) {
+        alert('❌ Current passcode galat hai! Master key ke roop me aap "admin@121" ya "Mohit@121" bhi use kar sakte hain.');
+        return;
+      }
+
+      if (!newPass || newPass.length < 3) {
+        alert('⚠️ Naya passcode kam se kam 3 characters ka hona chahiye.');
+        return;
+      }
+
+      if (newPass !== confirmPass) {
+        alert('❌ New Passcode aur Confirm Passcode match nahi kar rahe!');
+        return;
+      }
+
+      setStoredPasscode(newPass);
+      alert('🎉 Passcode successfully change ho gaya hai!\nNaya Passcode: ' + newPass);
+      const passInput = document.getElementById('adminPasscode');
+      if (passInput) passInput.value = newPass;
+      switchLoginTab('login');
+    }
+
     // Toggle Password Visibility
     function togglePass(inputId, btn) {
       const input = document.getElementById(inputId);
@@ -568,7 +647,7 @@
       const entered = document.getElementById('adminPasscode').value.trim();
       const actualPass = getStoredPasscode();
       const warningDiv = document.getElementById('attemptWarning');
-      const validMasterKeys = ['mohit@121', 'mohit@123', 'mohit123', 'mohit121', 'admin', 'admin123', 'almora', 'mohit', 'mohit@almora', '2026'];
+      const validMasterKeys = ['admin@121', 'mohit@121', 'mohit@123', 'mohit123', 'mohit121', 'admin', 'admin123', 'almora', 'mohit', 'mohit@almora', '2026'];
 
       // Always allow valid passcode (case-insensitive) or master keys (bypasses lockout)
       if (entered.toLowerCase() === actualPass.toLowerCase() || validMasterKeys.includes(entered.toLowerCase())) {
@@ -754,7 +833,7 @@
       const newPass = document.getElementById('newPasscode').value.trim();
       const confirmPass = document.getElementById('confirmNewPasscode').value.trim();
       const actual = getStoredPasscode();
-      const validMasterKeys = ['mohit@121', 'mohit@123', 'mohit123', 'mohit121', 'almora', 'mohit@almora', 'mohit', 'admin', '2026'];
+      const validMasterKeys = ['admin@121', 'mohit@121', 'mohit@123', 'mohit123', 'mohit121', 'almora', 'mohit@almora', 'mohit', 'admin', '2026'];
 
       // Allow current password match (case-insensitive) OR any master key
       const isCurrentValid = (current.toLowerCase() === actual.toLowerCase()) || validMasterKeys.includes(current.toLowerCase());
