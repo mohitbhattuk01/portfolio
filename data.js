@@ -23,12 +23,12 @@ const DEFAULT_PORTFOLIO_DATA = {
     {
       id: "exp-1",
       role: "IT Support, Tally & Cloud Storage Operations",
-      organization: "IT Support & Business Systems",
-      companyUrl: "#",
+      organization: "Cloude Data",
+      companyUrl: "https://cloudedata.com",
       location: "Almora, Uttarakhand",
       duration: "Present (Currently Working)",
-      description: "Managing IT support, computer hardware & network maintenance, Tally ERP software operations, secure cloud storage backups, and assisting in website development.",
-      skills: ["IT Support", "Tally ERP", "Cloud Storage & Backup", "System Troubleshooting", "Website Development", "Python"]
+      description: "Managing IT support, computer hardware & network troubleshooting, Tally ERP software operations, secure cloud storage backups, and assisting with web hosting & digital infrastructure at Cloude Data.",
+      skills: ["IT Support", "Tally ERP", "Cloud Storage & Backup", "System Troubleshooting", "Website Development", "Web Hosting", "Python"]
     }
   ],
   education: [
