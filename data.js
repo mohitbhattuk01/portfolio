@@ -22,12 +22,13 @@ const DEFAULT_PORTFOLIO_DATA = {
   experience: [
     {
       id: "exp-1",
-      role: "Website Development & Software Projects",
-      organization: "Web & Software Solutions",
+      role: "IT Support, Tally & Cloud Storage Operations",
+      organization: "IT Support & Business Systems",
+      companyUrl: "#",
       location: "Almora, Uttarakhand",
       duration: "Present (Currently Working)",
-      description: "Developing modern responsive websites, AI-powered web tools, UI/UX designs, and Python backend services.",
-      skills: ["Website Development", "Python", "JavaScript", "HTML5 & CSS3", "Flask", "Full-Stack"]
+      description: "Managing IT support, computer hardware & network maintenance, Tally ERP software operations, secure cloud storage backups, and assisting in website development.",
+      skills: ["IT Support", "Tally ERP", "Cloud Storage & Backup", "System Troubleshooting", "Website Development", "Python"]
     }
   ],
   education: [

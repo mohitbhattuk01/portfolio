@@ -147,159 +147,10 @@
       font-size: 0.8rem;
     }
 
-    /* 2-Second Auto-Rotating Photo Slideshow */
-    .photo-slider-card {
-      background: #ffffff;
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow-md);
-      overflow: hidden;
-      padding: 24px;
-      margin-top: 24px;
-      transition: var(--transition);
-    }
-    .photo-slider-card:hover {
-      box-shadow: var(--shadow-lg);
-      border-color: #bfdbfe;
-    }
-    .slider-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 18px;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-    .slider-controls {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .slider-nav-btn {
-      background: var(--bg-subtle);
-      border: 1px solid var(--border-strong);
-      color: var(--text-main);
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.95rem;
-      font-weight: bold;
-      transition: var(--transition);
-    }
-    .slider-nav-btn:hover {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
-      transform: scale(1.08);
-    }
-    .photo-slider-wrapper {
-      position: relative;
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
-      border: 1px solid #334155;
-      box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.4);
-    }
-    .photo-slider-container {
-      position: relative;
-      width: 100%;
-      height: 420px;
-      overflow: hidden;
-    }
     @media (max-width: 768px) {
-      .photo-slider-container {
-        height: 320px;
-      }
       .marquee-badge {
         display: none;
       }
-    }
-    .slider-slide {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0;
-      visibility: hidden;
-      transform: scale(1.04);
-      transition: opacity 0.7s ease-in-out, transform 0.7s ease-in-out, visibility 0.7s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .slider-slide.active {
-      opacity: 1;
-      visibility: visible;
-      transform: scale(1);
-      z-index: 1;
-    }
-    .slider-img-frame {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px 20px 70px;
-    }
-    .slider-img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-      filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.5));
-      border-radius: var(--radius-sm);
-    }
-    .slider-caption {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.7) 65%, transparent 100%);
-      color: white;
-      padding: 24px 20px 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-      z-index: 2;
-    }
-    .caption-title {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: #ffffff;
-      letter-spacing: 0.3px;
-    }
-    .caption-sub {
-      font-size: 0.85rem;
-      color: #94a3b8;
-    }
-    .slider-dots {
-      position: absolute;
-      bottom: 14px;
-      right: 20px;
-      display: flex;
-      gap: 8px;
-      z-index: 3;
-    }
-    .slider-dots .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.35);
-      border: 1px solid rgba(255, 255, 255, 0.6);
-      cursor: pointer;
-      transition: all 0.3s ease;
-      padding: 0;
-    }
-    .slider-dots .dot.active {
-      background: #38bdf8;
-      width: 26px;
-      border-radius: 6px;
-      border-color: #38bdf8;
-      box-shadow: 0 0 10px rgba(56, 189, 248, 0.8);
     }
   </style>
 </head>
@@ -427,85 +278,20 @@
         <div class="section-header">
           <h2>👨‍💻 About Me</h2>
         </div>
-        <p style="font-size: 1.05rem; color: var(--text-muted); line-height: 1.8;">
-          Hello! I'm <strong>Mohit Bhatt</strong>, a passionate <strong>Website Developer &amp; Software Enthusiast</strong> based in <strong>Almora, Uttarakhand</strong>. 
-          I have completed both my <strong>3-Year Diploma in Information Technology</strong> from Government Polytechnic Nainital (UBTER) and my <strong>Graduation</strong> from Uttarakhand Open University. 
-          I specialize in building responsive, high-performance web applications and dynamic software tools with <strong>HTML5, CSS3, JavaScript, and Python</strong>. I enjoy creating modern user interfaces, writing clean modular code, and deploying real-world solutions that deliver great user experiences.
+        <p style="font-size: 1.05rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 20px;">
+          Hello! I'm <strong>Mohit Bhatt</strong> from <strong>Almora, Uttarakhand</strong>. I hold a <strong>3-Year Diploma in Information Technology</strong> from Government Polytechnic Nainital (UBTER) and have completed my <strong>Graduation</strong> from Uttarakhand Open University. 
+          I have hands-on professional experience in <strong>IT Support, Tally Software, Cloud Storage &amp; Data Backup</strong>, alongside modern <strong>Website &amp; Software Development</strong> using HTML5, CSS3, JavaScript, and Python. I am dedicated to solving hardware &amp; software challenges, optimizing business workflows, and developing reliable digital solutions.
         </p>
-      </div>
 
-      <!-- 2-Second Auto-Rotating Photo Gallery -->
-      <div class="photo-slider-card">
-        <div class="slider-header">
-          <div>
-            <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px;">
-              📸 Photo Gallery — Mohit Bhatt
-              <span class="badge" style="background: var(--primary-light); color: var(--primary); font-size: 0.75rem; padding: 4px 10px; border-radius: var(--radius-full); font-weight: 700;">⚡ 2s Auto-Change</span>
-            </h3>
-            <p style="font-size: 0.88rem; color: var(--text-light); margin-top: 3px;">
-              Photos rotate automatically every 2 seconds • Pause on hover
-            </p>
-          </div>
-          <div class="slider-controls">
-            <button class="slider-nav-btn" onclick="prevSlide()" title="Previous Photo" aria-label="Previous">❮</button>
-            <button class="slider-nav-btn" onclick="nextSlide()" title="Next Photo" aria-label="Next">❯</button>
-          </div>
-        </div>
-
-        <div class="photo-slider-wrapper" id="photoSliderWrapper">
-          <div class="photo-slider-container">
-            <!-- Slide 1: Workstation Working -->
-            <div class="slider-slide active">
-              <div class="slider-img-frame">
-                <img src="mohit_desk_work.png" alt="Mohit Bhatt at Workstation" class="slider-img">
-              </div>
-              <div class="slider-caption">
-                <span class="caption-title">Mohit Bhatt — Website Developer</span>
-                <span class="caption-sub">Full-Stack Development, Modern Web Solutions &amp; Software Projects</span>
-              </div>
-            </div>
-
-            <!-- Slide 2: College Blazer UBTER -->
-            <div class="slider-slide">
-              <div class="slider-img-frame">
-                <img src="mohit_college_blazer.jpg" alt="Mohit Bhatt College Diploma" class="slider-img">
-              </div>
-              <div class="slider-caption">
-                <span class="caption-title">Government Polytechnic Nainital (UBTER)</span>
-                <span class="caption-sub">3-Year Diploma in Information Technology &amp; Graduation (Completed)</span>
-              </div>
-            </div>
-
-            <!-- Slide 3: Developer Setup -->
-            <div class="slider-slide">
-              <div class="slider-img-frame">
-                <img src="mohit_workspace_setup.jpg" alt="Developer Workstation Setup" class="slider-img">
-              </div>
-              <div class="slider-caption">
-                <span class="caption-title">Developer Workstation &amp; Tech Setup</span>
-                <span class="caption-sub">Dual Screen Setup • High-Efficiency Web Development &amp; Monitoring</span>
-              </div>
-            </div>
-
-            <!-- Slide 4: Portrait Profile -->
-            <div class="slider-slide">
-              <div class="slider-img-frame">
-                <img src="mohit_portrait_glasses.png" alt="Mohit Bhatt Portrait" class="slider-img">
-              </div>
-              <div class="slider-caption">
-                <span class="caption-title">Mohit Bhatt — Almora, Uttarakhand</span>
-                <span class="caption-sub">Passionate Coder • Ready for Web Development &amp; Tech Opportunities</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Slide Dots Indicator -->
-          <div class="slider-dots" id="sliderDots">
-            <button class="dot active" onclick="goToSlide(0)" aria-label="Slide 1"></button>
-            <button class="dot" onclick="goToSlide(1)" aria-label="Slide 2"></button>
-            <button class="dot" onclick="goToSlide(2)" aria-label="Slide 3"></button>
-            <button class="dot" onclick="goToSlide(3)" aria-label="Slide 4"></button>
-          </div>
+        <!-- Domain & Technical Badges -->
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <span class="chip chip-primary">💻 IT Support &amp; Systems</span>
+          <span class="chip chip-primary">📊 Tally ERP &amp; Data Operations</span>
+          <span class="chip chip-primary">☁️ Cloud Storage &amp; Backup</span>
+          <span class="chip chip-primary">🌐 Modern Website Development</span>
+          <span class="chip chip-primary">🐍 Python &amp; JavaScript</span>
+          <span class="chip chip-success">🎓 3-Year Diploma in IT (UBTER)</span>
+          <span class="chip chip-success">📍 Almora, Uttarakhand</span>
         </div>
       </div>
     </section>
@@ -519,10 +305,10 @@
               <span class="badge-render">
                 <span class="pulse-dot"></span> Currently Working
               </span>
-              <span class="tag tag-primary">Almora, Uttarakhand</span>
+              <span class="tag tag-primary">🏢 On-Site / Almora</span>
             </div>
-            <h3 style="font-size: 1.5rem; font-weight: 800; color: var(--text-main);">Website Development &amp; Software Projects</h3>
-            <p style="color: var(--primary); font-weight: 600; font-size: 1rem;">Full-Stack Web Development, Modern UI/UX &amp; Python Backend Solutions</p>
+            <h3 style="font-size: 1.5rem; font-weight: 800; color: var(--text-main);">IT Support, Tally &amp; Cloud Storage Operations</h3>
+            <p style="color: var(--primary); font-weight: 600; font-size: 1rem;">Computer Systems Support, Tally ERP, Cloud Data Backup &amp; Digital Infrastructure</p>
           </div>
           <div style="text-align: right;">
             <span class="tag" style="background: white; font-size: 0.85rem; font-weight: 700;">📅 Present</span>
@@ -532,21 +318,29 @@
         <div style="display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center;">
           <div>
             <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 16px; line-height: 1.7;">
-              Designing, developing, and deploying high-performance web applications, responsive user interfaces, and modular backend scripts. Combining modern frontend technologies (HTML5, CSS3, JavaScript) with Python backend logic to create reliable and scalable software solutions.
+              Managing day-to-day IT support, hardware and network troubleshooting, Tally accounting &amp; inventory operations, centralized cloud storage organization, automated digital file backups, and computer systems stability. In tandem, assisting with website development and technical administration.
             </p>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin-bottom: 18px;">
               <div style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-muted);">
-                <span>🌐</span> <strong>Responsive Website Development</strong>
+                <span>🛠️</span> <strong>IT Support &amp; Troubleshooting</strong>
               </div>
               <div style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-muted);">
-                <span>⚡</span> <strong>Full-Stack Web Apps &amp; Python</strong>
+                <span>📊</span> <strong>Tally ERP &amp; Data Operations</strong>
               </div>
               <div style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-muted);">
-                <span>🎨</span> <strong>Modern UI/UX Design &amp; Styling</strong>
+                <span>☁️</span> <strong>Cloud Storage &amp; Secure Backups</strong>
               </div>
               <div style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-muted);">
-                <span>🚀</span> <strong>Git, GitHub &amp; Cloud Deployments</strong>
+                <span>🌐</span> <strong>Website &amp; Systems Maintenance</strong>
               </div>
+            </div>
+
+            <!-- Company Website Link Button -->
+            <div id="companyLinkArea" style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <a id="companyWebsiteBtn" href="#" target="_blank" class="btn btn-primary btn-sm" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none;">
+                🏢 Visit Company Website →
+              </a>
+              <span id="companyWebsiteNote" style="font-size: 0.85rem; color: var(--text-light);">(Official Company Portal)</span>
             </div>
           </div>
           <div style="text-align: center;">
@@ -968,71 +762,6 @@
       });
     }
 
-    // 2-Second Auto-Rotating Photo Slider
-    let currentSlideIndex = 0;
-    let slideTimer = null;
-
-    function showSlide(index) {
-      const slides = document.querySelectorAll('.slider-slide');
-      const dots = document.querySelectorAll('#sliderDots .dot');
-      if (!slides.length) return;
-
-      if (index >= slides.length) currentSlideIndex = 0;
-      else if (index < 0) currentSlideIndex = slides.length - 1;
-      else currentSlideIndex = index;
-
-      slides.forEach((s, i) => {
-        if (i === currentSlideIndex) {
-          s.classList.add('active');
-        } else {
-          s.classList.remove('active');
-        }
-      });
-
-      dots.forEach((d, i) => {
-        if (i === currentSlideIndex) {
-          d.classList.add('active');
-        } else {
-          d.classList.remove('active');
-        }
-      });
-    }
-
-    function nextSlide() {
-      showSlide(currentSlideIndex + 1);
-      resetSlideTimer();
-    }
-
-    function prevSlide() {
-      showSlide(currentSlideIndex - 1);
-      resetSlideTimer();
-    }
-
-    function goToSlide(index) {
-      showSlide(index);
-      resetSlideTimer();
-    }
-
-    function startSlideTimer() {
-      clearInterval(slideTimer);
-      // 2 seconds auto-change interval
-      slideTimer = setInterval(() => {
-        showSlide(currentSlideIndex + 1);
-      }, 2000);
-    }
-
-    function resetSlideTimer() {
-      clearInterval(slideTimer);
-      startSlideTimer();
-    }
-
-    function setupSliderHover() {
-      const wrapper = document.getElementById('photoSliderWrapper');
-      if (!wrapper) return;
-      wrapper.addEventListener('mouseenter', () => clearInterval(slideTimer));
-      wrapper.addEventListener('mouseleave', () => startSlideTimer());
-    }
-
     // Update Profile Bio if customized from Admin Panel
     function loadProfileInfo() {
       if (typeof PortfolioData !== 'undefined' && PortfolioData.getProfile) {
@@ -1047,8 +776,6 @@
     document.addEventListener('DOMContentLoaded', () => {
       renderHomeProjects();
       loadProfileInfo();
-      startSlideTimer();
-      setupSliderHover();
     });
   </script>
 </body>
