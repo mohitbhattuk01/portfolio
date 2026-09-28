@@ -96,13 +96,50 @@
       border-radius: 999px;
       font-weight: 700;
     }
-    .project-actions {
-      display: flex;
-      gap: 6px;
+    .link-type-pill {
+      background: white;
+      border: 1px solid #cbd5e1;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.2s;
     }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+    .link-type-pill:hover {
+      border-color: #3b82f6;
+      color: #2563eb;
+    }
+    .link-type-pill.active {
+      background: #2563eb;
+      border-color: #2563eb;
+      color: white;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+    }
+    /* GitHub Sync Modal */
+    .sync-modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(4px);
+      z-index: 3000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .sync-modal-card {
+      background: white;
+      border-radius: 16px;
+      max-width: 620px;
+      width: 100%;
+      padding: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+      position: relative;
     }
   </style>
 </head>
@@ -259,6 +296,7 @@
         </div>
         <div class="nav-links">
           <a href="index.html" class="btn btn-secondary btn-sm">🌐 View Portfolio</a>
+          <button onclick="openGitHubSyncModal()" class="btn btn-primary btn-sm" style="font-weight: 600;">☁️ Sync to GitHub</button>
           <button onclick="exportData()" class="btn btn-secondary btn-sm">📥 Export Backup (JSON)</button>
           <button onclick="handleLogout()" class="btn btn-danger btn-sm">🔒 Logout</button>
         </div>
@@ -326,14 +364,51 @@
                 <textarea id="pDesc" class="form-control" rows="3" placeholder="Explain what the project does..." required></textarea>
               </div>
 
-              <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                <div class="form-group">
-                  <label for="pLive">Live Demo URL / HTML file *</label>
-                  <input type="text" id="pLive" class="form-control" placeholder="e.g. https://myproject.onrender.com or mypage.html" required>
+              <!-- Interactive Project Link Selector -->
+              <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 14px; margin-bottom: 16px;">
+                <label style="font-weight: 700; font-size: 0.9rem; color: #1e293b; display: block; margin-bottom: 6px;">
+                  🔗 Project Link Type (Choose What You Have)
+                </label>
+                <p style="font-size: 0.78rem; color: #64748b; margin-bottom: 10px;">
+                  Select karein ki aapke paas is project ka kaunsa link hai:
+                </p>
+
+                <!-- Quick Type Selector Pills -->
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px;">
+                  <button type="button" id="pillWeb" class="link-type-pill active" onclick="selectLinkType('web')">🌐 Live Website (Render/Vercel/URL)</button>
+                  <button type="button" id="pillFile" class="link-type-pill" onclick="selectLinkType('file')">📄 Local HTML File in Portfolio</button>
+                  <button type="button" id="pillGithub" class="link-type-pill" onclick="selectLinkType('github')">🐙 GitHub Code Only</button>
+                  <button type="button" id="pillProgress" class="link-type-pill" onclick="selectLinkType('progress')">⏳ In Progress / Coming Soon</button>
                 </div>
-                <div class="form-group">
-                  <label for="pGithub">GitHub Repo URL</label>
-                  <input type="text" id="pGithub" class="form-control" placeholder="https://github.com/mohitbhattuk01/...">
+
+                <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label for="pLive" id="pLiveLabel" style="font-size: 0.85rem; font-weight: 600;">
+                      Live Demo URL / File Name
+                    </label>
+                    <input type="text" id="pLive" class="form-control" placeholder="https://my-app.onrender.com">
+                    <span id="pLiveHelp" style="display: block; font-size: 0.75rem; color: #64748b; margin-top: 4px;">
+                      💡 Live website ka full link daalein (Render, Vercel, Netlify, ya koi domain)
+                    </span>
+                  </div>
+
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label for="pGithub" style="font-size: 0.85rem; font-weight: 600;">GitHub Repository URL</label>
+                    <input type="text" id="pGithub" class="form-control" placeholder="https://github.com/mohitbhattuk01/...">
+                    <span style="display: block; font-size: 0.75rem; color: #64748b; margin-top: 4px;">
+                      🐙 GitHub par repository code link
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Dropdown / Pickers for local files if type is 'file' -->
+                <div id="localFilePicker" style="display: none; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #cbd5e1;">
+                  <span style="font-size: 0.8rem; font-weight: 600; color: #334155;">Portfolio folder me already bani files choose karein:</span>
+                  <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px;">
+                    <button type="button" class="tag" style="cursor: pointer; background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd;" onclick="setLocalFile('project1.html')">🧮 project1.html (Calculator)</button>
+                    <button type="button" class="tag" style="cursor: pointer; background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd;" onclick="setLocalFile('weather.html')">🌦️ weather.html (Weather App)</button>
+                    <button type="button" class="tag" style="cursor: pointer; background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd;" onclick="setLocalFile('hhh.html')">🎤 hhh.html (Voice To-Do)</button>
+                  </div>
                 </div>
               </div>
 
@@ -488,6 +563,47 @@
         </div>
       </div>
     </main>
+  <!-- GitHub Sync & Live Update Modal -->
+  <div id="syncModal" class="sync-modal-overlay">
+    <div class="sync-modal-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+        <h3 style="font-size: 1.25rem; font-weight: 700; color: #0f172a; display: flex; align-items: center; gap: 8px;">
+          <span>☁️</span> GitHub Sync &amp; Live Website Update
+        </h3>
+        <button onclick="closeGitHubSyncModal()" style="background: none; border: none; font-size: 1.4rem; cursor: pointer; color: #64748b;">✕</button>
+      </div>
+
+      <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 12px; margin-bottom: 14px; font-size: 0.86rem; color: #166534; line-height: 1.5;">
+        ✅ <strong>Admin Panel me project successfully save ho gaya hai!</strong><br>
+        Aapke browser me ye turant show hoga. Is project ko poori duniya ke visitors ke liye live GitHub Pages par upload karne ke liye neeche diye 2 methods me se ek use karein:
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 18px;">
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px;">
+          <h4 style="font-size: 0.95rem; margin-bottom: 4px; color: #1e293b;">🚀 Method 1: AI Assistant Se Push Karwayein (Sabse Aasan)</h4>
+          <p style="font-size: 0.82rem; color: #64748b; margin-bottom: 10px;">
+            Neeche button dabakar updated code copy karein aur chat me bol dein <em>"ye code github par push kar do"</em>. Main turant live kar dunga!
+          </p>
+          <button type="button" onclick="copyDataJSCode()" class="btn btn-primary btn-sm" style="font-weight: 600;">
+            📋 Copy Updated data.js Code
+          </button>
+        </div>
+
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px;">
+          <h4 style="font-size: 0.95rem; margin-bottom: 4px; color: #1e293b;">📥 Method 2: Download data.js File</h4>
+          <p style="font-size: 0.82rem; color: #64748b; margin-bottom: 10px;">
+            Updated file download karein aur apne portfolio folder ke andar purani <code>data.js</code> file ko replace kar dein.
+          </p>
+          <button type="button" onclick="downloadDataJSFile()" class="btn btn-secondary btn-sm" style="font-weight: 600;">
+            📥 Download data.js File
+          </button>
+        </div>
+      </div>
+
+      <div style="text-align: right;">
+        <button type="button" onclick="closeGitHubSyncModal()" class="btn btn-secondary btn-sm">Close</button>
+      </div>
+    </div>
   </div>
 
   <!-- Toast Container -->
@@ -920,6 +1036,182 @@
       });
     }
 
+    // Link Type Selector
+    function selectLinkType(type) {
+      const pLive = document.getElementById('pLive');
+      const pGithub = document.getElementById('pGithub');
+      const pLiveHelp = document.getElementById('pLiveHelp');
+      const pBadge = document.getElementById('pBadge');
+      const filePicker = document.getElementById('localFilePicker');
+      
+      const pills = ['pillWeb', 'pillFile', 'pillGithub', 'pillProgress'];
+      pills.forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) btn.classList.remove('active');
+      });
+
+      if (type === 'web') {
+        const b = document.getElementById('pillWeb');
+        if (b) b.classList.add('active');
+        pLive.placeholder = "https://my-app.onrender.com";
+        pLiveHelp.textContent = "💡 Live website ka full link daalein (Render, Vercel, Netlify, ya domain)";
+        if (filePicker) filePicker.style.display = 'none';
+        if (pLive.value === '#' || pLive.value.endsWith('.html')) pLive.value = '';
+      } else if (type === 'file') {
+        const b = document.getElementById('pillFile');
+        if (b) b.classList.add('active');
+        pLive.placeholder = "myproject.html";
+        pLiveHelp.textContent = "💡 Portfolio folder me bani .html file ka naam likhein ya niche se pick karein";
+        if (filePicker) filePicker.style.display = 'block';
+      } else if (type === 'github') {
+        const b = document.getElementById('pillGithub');
+        if (b) b.classList.add('active');
+        pLiveHelp.textContent = "🐙 Live deployment nahi hai toh direct GitHub repo link use hoga!";
+        if (filePicker) filePicker.style.display = 'none';
+        if (pGithub.value) pLive.value = pGithub.value;
+        else pLive.placeholder = "Auto uses GitHub URL";
+      } else if (type === 'progress') {
+        const b = document.getElementById('pillProgress');
+        if (b) b.classList.add('active');
+        pLive.value = "#";
+        pLiveHelp.textContent = "⏳ Project abhi ban raha hai - Portfolio par 'In Development' badge aayega!";
+        if (filePicker) filePicker.style.display = 'none';
+        if (pBadge && (!pBadge.value || pBadge.value === 'Web App')) pBadge.value = "In Development";
+      }
+    }
+
+    function setLocalFile(filename) {
+      document.getElementById('pLive').value = filename;
+    }
+
+    // GitHub Sync Modal Handlers
+    function openGitHubSyncModal() {
+      const modal = document.getElementById('syncModal');
+      if (modal) modal.style.display = 'flex';
+    }
+
+    function closeGitHubSyncModal() {
+      const modal = document.getElementById('syncModal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function generateDataJSString() {
+      const allData = PortfolioData.getAll();
+      return `/**
+ * Portfolio Data Store & Management System
+ * Auto-synchronized from Admin Panel
+ */
+
+const DEFAULT_PORTFOLIO_DATA = ${JSON.stringify(allData, null, 2)};
+
+const STORAGE_KEY = 'mohit_portfolio_data_v5';
+
+// Portfolio Data Manager API
+const PortfolioData = {
+  getAll: function() {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (!stored) {
+        this.saveAll(DEFAULT_PORTFOLIO_DATA);
+        return DEFAULT_PORTFOLIO_DATA;
+      }
+      return JSON.parse(stored);
+    } catch (e) {
+      return DEFAULT_PORTFOLIO_DATA;
+    }
+  },
+  saveAll: function(data) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  },
+  getProjects: function() {
+    return this.getAll().projects || [];
+  },
+  getFeaturedProjects: function() {
+    return this.getProjects().filter(p => p.featured);
+  },
+  getEducation: function() {
+    return this.getAll().education || DEFAULT_PORTFOLIO_DATA.education;
+  },
+  getProfile: function() {
+    return this.getAll().profile || DEFAULT_PORTFOLIO_DATA.profile;
+  },
+  addProject: function(project) {
+    const data = this.getAll();
+    if (!project.id) project.id = 'proj-' + Date.now();
+    data.projects.push(project);
+    this.saveAll(data);
+    return project;
+  },
+  updateProject: function(id, updatedFields) {
+    const data = this.getAll();
+    const index = data.projects.findIndex(p => p.id === id);
+    if (index !== -1) {
+      data.projects[index] = { ...data.projects[index], ...updatedFields };
+      this.saveAll(data);
+      return true;
+    }
+    return false;
+  },
+  deleteProject: function(id) {
+    if (id === 'ai-resume-analyzer') {
+      alert('The core Final Year Project cannot be deleted.');
+      return false;
+    }
+    const data = this.getAll();
+    data.projects = data.projects.filter(p => p.id !== id);
+    this.saveAll(data);
+    return true;
+  },
+  resetDefaults: function() {
+    this.saveAll(DEFAULT_PORTFOLIO_DATA);
+    return DEFAULT_PORTFOLIO_DATA;
+  },
+  exportJSON: function() {
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.getAll(), null, 2));
+    const a = document.createElement('a');
+    a.setAttribute("href", dataStr);
+    a.setAttribute("download", "mohit_portfolio_data.json");
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+};
+
+window.PortfolioData = PortfolioData;
+`;
+    }
+
+    function copyDataJSCode() {
+      const code = generateDataJSString();
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(code).then(() => {
+          showToast('📋 Updated code copy ho gaya! Chat me paste kar dijiye.');
+          alert('📋 Updated data.js code copy ho gaya hai!\n\nAap is code ko chat me paste kar dein, main turant GitHub par push kar dunga!');
+        }).catch(() => {
+          prompt('Neeche diye code ko copy karein:', code);
+        });
+      } else {
+        prompt('Neeche diye code ko copy karein:', code);
+      }
+    }
+
+    function downloadDataJSFile() {
+      const code = generateDataJSString();
+      const blob = new Blob([code], { type: 'text/javascript' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'data.js';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      showToast('📥 data.js file download ho gayi!');
+    }
+
     // Save or Update Project
     function handleSaveProject(e) {
       e.preventDefault();
@@ -927,21 +1219,27 @@
       const title = document.getElementById('pTitle').value.trim();
       const subtitle = document.getElementById('pSubtitle').value.trim();
       const desc = document.getElementById('pDesc').value.trim();
-      const live = document.getElementById('pLive').value.trim();
+      let live = document.getElementById('pLive').value.trim();
       const github = document.getElementById('pGithub').value.trim();
       const tagsStr = document.getElementById('pTags').value.trim();
       const icon = document.getElementById('pIcon').value;
       const badge = document.getElementById('pBadge').value.trim();
       const featured = document.getElementById('pFeatured').checked;
 
-      const tags = tagsStr ? tagsStr.split(',').map(t => t.trim()).filter(Boolean) : ['Project'];
+      // Smart link fallback
+      if (!live) {
+        if (github) live = github;
+        else live = '#';
+      }
+
+      const tags = tagsStr ? tagsStr.split(',').map(t => t.trim()).filter(Boolean) : ['Web App'];
 
       const projectData = {
         title,
         subtitle: subtitle || title,
         description: desc,
         liveUrl: live,
-        githubUrl: github || 'https://github.com/mohitbhattuk01',
+        githubUrl: github || (live.includes('github.com') ? live : 'https://github.com/mohitbhattuk01'),
         tags,
         icon,
         badge: badge || 'Web App',
@@ -959,6 +1257,7 @@
 
       resetForm();
       loadDashboard();
+      openGitHubSyncModal();
     }
 
     // Edit Project
@@ -978,6 +1277,17 @@
       document.getElementById('pBadge').value = p.badge || 'Web App';
       document.getElementById('pFeatured').checked = !!p.featured;
 
+      // Auto-detect link type
+      if (p.liveUrl === '#') {
+        selectLinkType('progress');
+      } else if (p.liveUrl.endsWith('.html')) {
+        selectLinkType('file');
+      } else if (p.liveUrl.includes('github.com')) {
+        selectLinkType('github');
+      } else {
+        selectLinkType('web');
+      }
+
       document.getElementById('submitBtn').textContent = '💾 Update Project';
       document.getElementById('cancelEditBtn').style.display = 'inline-block';
       window.scrollTo({ top: 120, behavior: 'smooth' });
@@ -990,6 +1300,7 @@
       document.getElementById('submitBtn').textContent = '💾 Save Project';
       document.getElementById('cancelEditBtn').style.display = 'none';
       document.getElementById('pTags').value = 'HTML5, CSS3, JavaScript';
+      selectLinkType('web');
     }
 
     // Delete Project

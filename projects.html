@@ -194,10 +194,13 @@
               ${tagsHtml}
             </div>
             <div class="project-links">
-              <a href="${p.liveUrl}" ${p.liveUrl.startsWith('http') ? 'target="_blank"' : ''} class="btn btn-primary btn-sm" style="flex:1;">
-                Open Project →
-              </a>
-              ${p.githubUrl ? `
+              ${(!p.liveUrl || p.liveUrl === '#' || p.liveUrl === p.githubUrl)
+                ? (p.githubUrl 
+                    ? `<a href="${p.githubUrl}" target="_blank" class="btn btn-primary btn-sm" style="flex:1;">🐙 GitHub Code →</a>` 
+                    : `<span class="btn btn-secondary btn-sm" style="flex:1; opacity:0.8; cursor:default;">⏳ In Progress</span>`)
+                : `<a href="${p.liveUrl}" ${p.liveUrl.startsWith('http') ? 'target="_blank"' : ''} class="btn btn-primary btn-sm" style="flex:1;">Open Project →</a>`
+              }
+              ${(p.githubUrl && p.githubUrl !== p.liveUrl && p.liveUrl !== '#') ? `
                 <a href="${p.githubUrl}" target="_blank" class="btn btn-secondary btn-sm" title="View Source">
                   🐙 GitHub
                 </a>
