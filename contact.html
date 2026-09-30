@@ -9,6 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <style>
     .contact-wrapper {
       display: grid;
@@ -254,7 +256,10 @@
       nav.classList.toggle('show');
     }
 
-    // AJAX Form Submission - No redirect, No captcha, Instant on-page success
+    // Initialize EmailJS
+    emailjs.init("Ic1I834fr2tCwuGpu");
+
+    // EmailJS Form Submission - Reliable email delivery
     document.getElementById('contactForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const btn = document.getElementById('submitBtn');
@@ -262,28 +267,19 @@
       btn.innerHTML = '⏳ Sending Message...';
       btn.disabled = true;
 
-      const payload = {
+      const templateParams = {
         name: document.getElementById('name').value.trim(),
         email: document.getElementById('email').value.trim(),
         message: document.getElementById('message').value.trim(),
-        _subject: "New Message from Portfolio Website (" + document.getElementById('name').value.trim() + ")",
-        _captcha: "false"
+        time: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
       };
 
       try {
-        const response = await fetch("https://formsubmit.co/ajax/mohitbhatt2030@gmail.com", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-          },
-          body: JSON.stringify(payload)
-        });
+        const response = await emailjs.send("service_40n3xhy", "template_7azosmp", templateParams);
 
-        const data = await response.json();
-
-        if (response.ok && (data.success === "true" || data.success === true)) {
+        if (response.status === 200) {
           const msg = document.getElementById('successMessage');
+          msg.textContent = '✅ Message sent successfully! Thank you for reaching out, I will reply shortly.';
           msg.classList.add('show');
           document.getElementById('contactForm').reset();
           btn.innerHTML = '✅ Message Sent!';
@@ -294,22 +290,22 @@
           setTimeout(() => {
             msg.classList.remove('show');
           }, 8000);
-        } else {
-          // Fallback if email needs activation
-          const msg = document.getElementById('successMessage');
-          msg.textContent = '✅ Message sent successfully! Thank you for reaching out.';
-          msg.classList.add('show');
-          document.getElementById('contactForm').reset();
-          btn.innerHTML = origText;
-          btn.disabled = false;
         }
       } catch (err) {
-        // Even on offline/cors quirks, show friendly feedback
         const msg = document.getElementById('successMessage');
+        msg.textContent = '❌ Failed to send message. Please try WhatsApp or email directly.';
+        msg.style.background = '#fef2f2';
+        msg.style.color = '#991b1b';
+        msg.style.borderColor = '#fca5a5';
         msg.classList.add('show');
-        document.getElementById('contactForm').reset();
         btn.innerHTML = origText;
         btn.disabled = false;
+        setTimeout(() => {
+          msg.classList.remove('show');
+          msg.style.background = '';
+          msg.style.color = '';
+          msg.style.borderColor = '';
+        }, 8000);
       }
     });
   </script>
