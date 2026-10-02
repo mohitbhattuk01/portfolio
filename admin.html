@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -149,7 +149,7 @@
   <div id="loginOverlay" class="admin-login-overlay">
     <!-- Standard Login Card -->
     <div id="loginCard" class="admin-login-card">
-      <div id="secretLockIcon" onclick="handleSecretIconClick()" style="font-size: 2.6rem; margin-bottom: 12px; cursor: pointer; user-select: none;" title="Portfolio Security">🔐</div>
+      <div style="font-size: 2.6rem; margin-bottom: 12px; user-select: none;">🔐</div>
       <h2>Portfolio Admin Panel</h2>
       <p style="margin-bottom: 14px;">Enter your admin passcode or change it anytime.</p>
 
@@ -183,17 +183,17 @@
 
       <!-- Panel 2: Quick Change Passcode Form -->
       <form id="quickChangeForm" onsubmit="handleQuickChangePasscode(event)" style="display: none; text-align: left;">
-        <div class="form-group" style="margin-bottom: 14px;">
-          <label style="font-size: 0.85rem; font-weight: 600;">Current Passcode / Master Key</label>
+        <div id="quickCurrentPassGroup" class="form-group" style="margin-bottom: 14px;">
+          <label style="font-size: 0.85rem; font-weight: 600;">Current Passcode</label>
           <div class="password-field-wrapper">
-            <input type="password" id="quickCurrentPasscode" class="form-control" placeholder="Enter current passcode or 'admin@121'" required>
+            <input type="password" id="quickCurrentPasscode" class="form-control" placeholder="Enter current passcode">
             <button type="button" class="toggle-eye-btn" onclick="togglePass('quickCurrentPasscode', this)">👁️</button>
           </div>
         </div>
         <div class="form-group" style="margin-bottom: 14px;">
           <label style="font-size: 0.85rem; font-weight: 600;">New Passcode *</label>
           <div class="password-field-wrapper">
-            <input type="password" id="quickNewPasscode" class="form-control" placeholder="Enter new passcode (min 3 chars)" required>
+            <input type="password" id="quickNewPasscode" class="form-control" placeholder="Enter new passcode (min 8 chars)" required>
             <button type="button" class="toggle-eye-btn" onclick="togglePass('quickNewPasscode', this)">👁️</button>
           </div>
         </div>
@@ -208,77 +208,31 @@
       </form>
     </div>
 
-    <!-- Forgot Passcode Card -->
+    <!-- Forgot Passcode Card (Info Only — No Frontend Recovery) -->
     <div id="forgotCard" class="admin-login-card" style="display: none; max-width: 440px;">
       <div style="font-size: 2.4rem; margin-bottom: 10px;">🔑</div>
-      <h2>Reset Admin Passcode</h2>
-      <p style="margin-bottom: 16px; font-size: 0.88rem;">Recover your passcode via Email or Secret Answer.</p>
+      <h2>Forgot Passcode?</h2>
 
-      <!-- Recovery Tabs -->
-      <div style="display: flex; gap: 6px; margin-bottom: 20px; background: #f1f5f9; padding: 4px; border-radius: 8px;">
-        <button type="button" id="tabEmailBtn" onclick="switchForgotTab('email')" class="recovery-tab-btn active">📧 Via Email</button>
-        <button type="button" id="tabAnswerBtn" onclick="switchForgotTab('answer')" class="recovery-tab-btn">🛡️ Secret Answer</button>
+      <div style="background: #fef3c7; border: 1px solid #fde68a; border-radius: 8px; padding: 14px; margin: 16px 0; text-align: left; font-size: 0.86rem; color: #92400e; line-height: 1.6;">
+        <strong>⚠️ Frontend-Only Website</strong><br>
+        This portfolio is hosted as a static website (GitHub Pages). Secure password recovery requires a backend server, which is not available here.
       </div>
 
-      <!-- Tab 1: Email Recovery -->
-      <div id="tabEmailContent">
-        <div id="stepEmailRequest">
-          <p style="font-size: 0.86rem; color: #475569; margin-bottom: 14px; text-align: left; line-height: 1.5;">
-            We will send a 6-digit verification code (OTP) to your registered email: <strong>pro.it2026dev@gmail.com</strong>
-          </p>
-          <button type="button" id="sendOtpBtn" onclick="sendRecoveryEmail()" class="btn btn-primary" style="width: 100%; padding: 11px;">
-            📩 Send OTP to My Email
-          </button>
-        </div>
-
-        <div id="stepVerifyOtp" style="display: none; text-align: left;">
-          <div style="padding: 10px; background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 6px; font-size: 0.82rem; color: #065f46; margin-bottom: 14px;">
-            ✅ Verification OTP sent to <b>pro.it2026dev@gmail.com</b>! Please check your inbox (and spam folder).
-          </div>
-          <div class="form-group">
-            <label style="font-size: 0.85rem; font-weight: 600;">6-Digit OTP from Email</label>
-            <input type="text" id="inputOtp" class="form-control" placeholder="Enter 6-digit code" maxlength="6">
-          </div>
-          <div class="form-group">
-            <label style="font-size: 0.85rem; font-weight: 600;">New Admin Passcode</label>
-            <div class="password-field-wrapper">
-              <input type="password" id="newPassFromOtp" class="form-control" placeholder="Enter new passcode (min 4 chars)">
-              <button type="button" class="toggle-eye-btn" onclick="togglePass('newPassFromOtp', this)">👁️</button>
-            </div>
-          </div>
-          <div class="form-group">
-            <label style="font-size: 0.85rem; font-weight: 600;">Confirm New Passcode</label>
-            <input type="password" id="confirmPassFromOtp" class="form-control" placeholder="Re-enter new passcode">
-          </div>
-          <button type="button" onclick="verifyOtpAndReset()" class="btn btn-primary" style="width: 100%;">💾 Save & Set New Passcode</button>
-        </div>
+      <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 14px; margin-bottom: 16px; text-align: left; font-size: 0.85rem; color: #0c4a6e; line-height: 1.6;">
+        <strong>🔧 How to Reset:</strong><br>
+        1. Open browser DevTools (F12)<br>
+        2. Go to Application → Local Storage<br>
+        3. Delete the key: <code>mohit_admin_pass_hash</code><br>
+        4. Refresh this page<br>
+        5. Set a new password from the "Change Passcode" tab
       </div>
 
-      <!-- Tab 2: Secret Answer Recovery -->
-      <div id="tabAnswerContent" style="display: none; text-align: left;">
-        <p style="font-size: 0.85rem; color: #475569; margin-bottom: 14px;">
-          Instant recovery answer without waiting for email.
-        </p>
-        <div class="form-group">
-          <label style="font-size: 0.85rem; font-weight: 600;">Security Question: Your Home Town / City?</label>
-          <input type="text" id="secretAnswerInput" class="form-control" placeholder="e.g. Almora">
-        </div>
-        <div class="form-group">
-          <label style="font-size: 0.85rem; font-weight: 600;">New Admin Passcode</label>
-          <div class="password-field-wrapper">
-            <input type="password" id="newPassFromAnswer" class="form-control" placeholder="Enter new passcode (min 4 chars)">
-            <button type="button" class="toggle-eye-btn" onclick="togglePass('newPassFromAnswer', this)">👁️</button>
-          </div>
-        </div>
-        <div class="form-group">
-          <label style="font-size: 0.85rem; font-weight: 600;">Confirm New Passcode</label>
-          <input type="password" id="confirmPassFromAnswer" class="form-control" placeholder="Re-enter new passcode">
-        </div>
-        <button type="button" onclick="verifyAnswerAndReset()" class="btn btn-primary" style="width: 100%;">💾 Reset Passcode Instantly</button>
-      </div>
+      <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 16px;">
+        💡 For production-grade recovery, integrate a backend API with email-based reset (bcrypt/Argon2id).
+      </p>
 
-      <div style="margin-top: 18px; text-align: center;">
-        <a href="javascript:void(0)" onclick="closeForgotScreen()" style="font-size: 0.85rem; color: #64748b; text-decoration: none;">← Back to Passcode Login</a>
+      <div style="text-align: center;">
+        <a href="javascript:void(0)" onclick="closeForgotScreen()" style="font-size: 0.85rem; color: #64748b; text-decoration: none;">← Back to Login</a>
       </div>
     </div>
   </div>
@@ -501,11 +455,11 @@
               <span>🔐</span> Change Admin Passcode
             </h3>
             <p style="color: var(--text-muted); font-size: 0.82rem; margin-bottom: 16px;">
-              Set a new custom passcode anytime. It will be saved securely for your admin panel.
+              Set a new custom passcode anytime. Your password is stored as a SHA-256 hash (frontend-only, not production-grade).
             </p>
             <form id="changePasscodeForm" onsubmit="handleChangePasscode(event)">
               <div class="form-group">
-                <label style="font-size: 0.85rem; font-weight: 600;">Current Passcode * <span style="font-weight: 400; color: #64748b; font-size: 0.78rem;">(or master key 'Mohit@121')</span></label>
+                <label style="font-size: 0.85rem; font-weight: 600;">Current Passcode *</label>
                 <div class="password-field-wrapper">
                   <input type="password" id="currentPasscode" class="form-control" placeholder="Enter current passcode" required>
                   <button type="button" class="toggle-eye-btn" onclick="togglePass('currentPasscode', this)">👁️</button>
@@ -514,7 +468,7 @@
               <div class="form-group">
                 <label style="font-size: 0.85rem; font-weight: 600;">New Passcode *</label>
                 <div class="password-field-wrapper">
-                  <input type="password" id="newPasscode" class="form-control" placeholder="Enter new passcode (min 3 chars)" required>
+                  <input type="password" id="newPasscode" class="form-control" placeholder="Enter new passcode (min 8 chars)" required>
                   <button type="button" class="toggle-eye-btn" onclick="togglePass('newPasscode', this)">👁️</button>
                 </div>
               </div>
@@ -524,7 +478,6 @@
               </div>
               <div style="display: flex; gap: 8px; margin-top: 14px;">
                 <button type="submit" class="btn btn-primary btn-sm" style="flex: 1;">💾 Save New Passcode</button>
-                <button type="button" onclick="resetPasscodeToDefault()" class="btn btn-secondary btn-sm" title="Reset back to Mohit@121">Reset Default</button>
               </div>
             </form>
           </div>
@@ -612,18 +565,58 @@
   <!-- Scripts -->
   <script src="data.js"></script>
   <script>
-    // Dynamic Passcode Management
-    function getStoredPasscode() {
-      const pass = localStorage.getItem('mohit_admin_passcode');
-      if (!pass || pass.toLowerCase() === 'mohit123' || pass === 'mohit@121') {
-        localStorage.setItem('mohit_admin_passcode', 'Mohit@121');
-        return 'Mohit@121';
-      }
-      return pass;
+    // ============================================
+    // ADMIN AUTHENTICATION SYSTEM
+    // ⚠️ SECURITY NOTICE: This is a frontend-only
+    // SHA-256 hash implementation. It is NOT
+    // production-grade security. Anyone with
+    // browser DevTools can modify localStorage.
+    // For real security, use a backend server
+    // with bcrypt/Argon2id password hashing.
+    // ============================================
+
+    // Storage Keys
+    const AUTH_HASH_KEY = 'mohit_admin_pass_hash';
+    const AUTH_SESSION_KEY = 'mohit_admin_auth';
+    const AUTH_FAIL_KEY = 'mohit_failed_attempts';
+    const AUTH_LOCKOUT_KEY = 'mohit_admin_lockout';
+
+    // SHA-256 hash using Web Crypto API (built into all modern browsers)
+    async function sha256(message) {
+      const msgBuffer = new TextEncoder().encode(message);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
-    function setStoredPasscode(pass) {
-      localStorage.setItem('mohit_admin_passcode', pass);
+    // Password Hash Storage
+    function getStoredHash() {
+      return localStorage.getItem(AUTH_HASH_KEY);
+    }
+
+    function setStoredHash(hash) {
+      localStorage.setItem(AUTH_HASH_KEY, hash);
+    }
+
+    // One-time migration from old plaintext password storage
+    async function migrateOldPlaintext() {
+      const oldKey = 'mohit_admin_passcode';
+      const oldPass = localStorage.getItem(oldKey);
+      const existingHash = getStoredHash();
+
+      if (oldPass && !existingHash) {
+        // Old plaintext found, no hash yet — migrate it
+        const hash = await sha256(oldPass);
+        setStoredHash(hash);
+        console.log('Auth: Migrated old plaintext password to SHA-256 hash.');
+      }
+      // Always clean up old plaintext key if it exists
+      if (oldPass) {
+        localStorage.removeItem(oldKey);
+      }
+      // Clean up any old master password storage keys
+      localStorage.removeItem('mohit_admin_master_keys');
+      localStorage.removeItem('mohit_admin_backup_pass');
     }
 
     // Tab Switcher between Login and Quick Change Passcode
@@ -638,38 +631,51 @@
       if (quickForm) quickForm.style.display = isLogin ? 'none' : 'block';
       if (tabLogin) tabLogin.className = 'recovery-tab-btn ' + (isLogin ? 'active' : '');
       if (tabChange) tabChange.className = 'recovery-tab-btn ' + (isLogin ? '' : 'active');
+
+      // First-time setup: hide current password field if no hash exists yet
+      const currentPassGroup = document.getElementById('quickCurrentPassGroup');
+      if (currentPassGroup) {
+        currentPassGroup.style.display = getStoredHash() ? 'block' : 'none';
+      }
     }
 
-    // Change passcode directly from login card
-    function handleQuickChangePasscode(e) {
+    // Change passcode from login screen
+    async function handleQuickChangePasscode(e) {
       e.preventDefault();
-      const current = document.getElementById('quickCurrentPasscode').value.trim();
-      const newPass = document.getElementById('quickNewPasscode').value.trim();
-      const confirmPass = document.getElementById('quickConfirmPasscode').value.trim();
-      const actual = getStoredPasscode();
-      const validMasterKeys = ['admin@121', 'mohit@121', 'mohit@123', 'mohit123', 'mohit121', 'almora', 'mohit@almora', 'mohit', 'admin', 'admin123', '2026'];
+      const current = document.getElementById('quickCurrentPasscode').value;
+      const newPass = document.getElementById('quickNewPasscode').value;
+      const confirmPass = document.getElementById('quickConfirmPasscode').value;
 
-      const isCurrentValid = (current.toLowerCase() === actual.toLowerCase()) || validMasterKeys.includes(current.toLowerCase());
+      const storedHash = getStoredHash();
 
-      if (!isCurrentValid) {
-        alert('❌ Current passcode galat hai! Master key ke roop me aap "admin@121" ya "Mohit@121" bhi use kar sakte hain.');
-        return;
+      // If a hash exists, verify current password first
+      if (storedHash) {
+        if (!current) {
+          alert('❌ Please enter your current passcode.');
+          return;
+        }
+        const currentHash = await sha256(current);
+        if (currentHash !== storedHash) {
+          alert('❌ Current passcode is incorrect!');
+          return;
+        }
       }
+      // If no hash exists, this is first-time setup — no current password needed
 
-      if (!newPass || newPass.length < 3) {
-        alert('⚠️ Naya passcode kam se kam 3 characters ka hona chahiye.');
+      if (!newPass || newPass.length < 8) {
+        alert('⚠️ New passcode must be at least 8 characters long.');
         return;
       }
 
       if (newPass !== confirmPass) {
-        alert('❌ New Passcode aur Confirm Passcode match nahi kar rahe!');
+        alert('❌ New Passcode and Confirm Passcode do not match!');
         return;
       }
 
-      setStoredPasscode(newPass);
-      alert('🎉 Passcode successfully change ho gaya hai!\nNaya Passcode: ' + newPass);
-      const passInput = document.getElementById('adminPasscode');
-      if (passInput) passInput.value = newPass;
+      const newHash = await sha256(newPass);
+      setStoredHash(newHash);
+      alert('🎉 Passcode successfully ' + (storedHash ? 'changed' : 'set') + '! You can now login.');
+      document.getElementById('quickChangeForm').reset();
       switchLoginTab('login');
     }
 
@@ -686,23 +692,10 @@
       }
     }
 
-    // Secret 3-Click Trigger on 🔐 icon
-    let secretClickCount = 0;
-    let secretClickTimer = null;
-    function handleSecretIconClick() {
-      secretClickCount++;
-      clearTimeout(secretClickTimer);
-      secretClickTimer = setTimeout(() => { secretClickCount = 0; }, 2000);
-
-      if (secretClickCount >= 3) {
-        secretClickCount = 0;
-        openForgotScreen(true);
-      }
-    }
-
     // Rate Limiting (Max 3 failed attempts, 5 minute lockout)
+    // ⚠️ This is client-side only — not real security, just user-friendly protection
     function checkLockout() {
-      const lockUntil = parseInt(localStorage.getItem('mohit_admin_lockout') || '0', 10);
+      const lockUntil = parseInt(localStorage.getItem(AUTH_LOCKOUT_KEY) || '0', 10);
       const now = Date.now();
       const banner = document.getElementById('lockoutBanner');
       const passInput = document.getElementById('adminPasscode');
@@ -723,30 +716,21 @@
         }
         if (passInput) passInput.disabled = false;
         if (submitBtn) submitBtn.disabled = false;
-        localStorage.removeItem('mohit_admin_lockout');
-        localStorage.setItem('mohit_failed_attempts', '0');
+        localStorage.removeItem(AUTH_LOCKOUT_KEY);
+        localStorage.setItem(AUTH_FAIL_KEY, '0');
         return false;
       }
     }
 
-    // Auth Check
-    function checkAuth() {
-      const pass = localStorage.getItem('mohit_admin_passcode');
-      if (!pass || pass.toLowerCase() === 'mohit123' || pass === 'mohit@121') {
-        localStorage.setItem('mohit_admin_passcode', 'Mohit@121');
-      }
-
-      // Check if URL has ?recover=mohit
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('recover') === 'mohit') {
-        openForgotScreen(true);
-      }
-
+    // Auth Check (called on page load)
+    async function checkAuth() {
+      await migrateOldPlaintext();
       checkLockout();
 
-      const isAuth = sessionStorage.getItem('mohit_admin_auth');
+      const isAuth = sessionStorage.getItem(AUTH_SESSION_KEY);
       const overlay = document.getElementById('loginOverlay');
       const mainContent = document.getElementById('adminMainContent');
+
       if (isAuth === 'true') {
         if (overlay) overlay.style.display = 'none';
         if (mainContent) mainContent.style.display = 'block';
@@ -755,39 +739,51 @@
         if (overlay) overlay.style.display = 'flex';
         if (mainContent) mainContent.style.display = 'none';
       }
+
+      // If no password hash exists, guide user to set one
+      if (!getStoredHash()) {
+        switchLoginTab('change');
+        showToast('🔐 Welcome! Please set your admin password first.');
+      }
     }
 
-    function handleLogin(e) {
+    // Handle Login
+    async function handleLogin(e) {
       e.preventDefault();
 
-      const entered = document.getElementById('adminPasscode').value.trim();
-      const actualPass = getStoredPasscode();
+      const entered = document.getElementById('adminPasscode').value;
+      const storedHash = getStoredHash();
       const warningDiv = document.getElementById('attemptWarning');
-      const validMasterKeys = ['admin@121', 'mohit@121', 'mohit@123', 'mohit123', 'mohit121', 'admin', 'admin123', 'almora', 'mohit', 'mohit@almora', '2026'];
 
-      // Always allow valid passcode (case-insensitive) or master keys (bypasses lockout)
-      if (entered.toLowerCase() === actualPass.toLowerCase() || validMasterKeys.includes(entered.toLowerCase())) {
-        if (entered.toLowerCase() === 'mohit@121' || entered.toLowerCase() === 'mohit@123') {
-          setStoredPasscode(entered);
-        }
-        localStorage.removeItem('mohit_admin_lockout');
-        localStorage.setItem('mohit_failed_attempts', '0');
-        sessionStorage.setItem('mohit_admin_auth', 'true');
+      if (!storedHash) {
+        alert('⚠️ No password set yet. Please set your password first using the "Change Passcode" tab.');
+        switchLoginTab('change');
+        return;
+      }
+
+      if (checkLockout()) return;
+
+      const enteredHash = await sha256(entered);
+
+      if (enteredHash === storedHash) {
+        // ✅ Login Success
+        localStorage.removeItem(AUTH_LOCKOUT_KEY);
+        localStorage.setItem(AUTH_FAIL_KEY, '0');
+        sessionStorage.setItem(AUTH_SESSION_KEY, 'true');
         document.getElementById('loginOverlay').style.display = 'none';
         document.getElementById('adminMainContent').style.display = 'block';
+        if (warningDiv) warningDiv.style.display = 'none';
         showToast('✅ Logged in successfully!');
         loadDashboard();
         return;
       }
 
-      // If user is locked out
-      if (checkLockout()) return;
-
-      let fails = parseInt(localStorage.getItem('mohit_failed_attempts') || '0', 10) + 1;
-      localStorage.setItem('mohit_failed_attempts', fails.toString());
+      // ❌ Login Failed
+      let fails = parseInt(localStorage.getItem(AUTH_FAIL_KEY) || '0', 10) + 1;
+      localStorage.setItem(AUTH_FAIL_KEY, fails.toString());
 
       if (fails >= 3) {
-        localStorage.setItem('mohit_admin_lockout', (Date.now() + 5 * 60 * 1000).toString());
+        localStorage.setItem(AUTH_LOCKOUT_KEY, (Date.now() + 5 * 60 * 1000).toString());
         if (warningDiv) warningDiv.style.display = 'none';
         alert('🛑 3 incorrect attempts. Screen locked for 5 minutes.');
         checkLockout();
@@ -800,22 +796,14 @@
       }
     }
 
+    // Logout
     function handleLogout() {
-      sessionStorage.removeItem('mohit_admin_auth');
+      sessionStorage.removeItem(AUTH_SESSION_KEY);
       window.location.reload();
     }
 
-    // Forgot Passcode Screen Handlers with Security PIN Protection
-    function openForgotScreen(bypassPin = false) {
-      if (!bypassPin) {
-        const pin = prompt('🔐 Owner Verification: Enter PIN or City name to open recovery\n(Default PIN: 2026 or Almora)');
-        if (!pin) return;
-        const normalized = pin.trim().toLowerCase();
-        if (normalized !== '2026' && normalized !== 'almora' && normalized !== 'mohit') {
-          alert('❌ Incorrect PIN or City. Access denied.');
-          return;
-        }
-      }
+    // Forgot Passcode Screen (info only — no bypass)
+    function openForgotScreen() {
       const loginCard = document.getElementById('loginCard');
       const forgotCard = document.getElementById('forgotCard');
       if (loginCard) loginCard.style.display = 'none';
@@ -829,161 +817,47 @@
       if (loginCard) loginCard.style.display = 'block';
     }
 
-    function switchForgotTab(tab) {
-      const isEmail = tab === 'email';
-      document.getElementById('tabEmailContent').style.display = isEmail ? 'block' : 'none';
-      document.getElementById('tabAnswerContent').style.display = isEmail ? 'none' : 'block';
-      document.getElementById('tabEmailBtn').className = 'recovery-tab-btn ' + (isEmail ? 'active' : '');
-      document.getElementById('tabAnswerBtn').className = 'recovery-tab-btn ' + (isEmail ? '' : 'active');
-    }
-
-    // Send Recovery Email via FormSubmit AJAX
-    async function sendRecoveryEmail() {
-      const sendBtn = document.getElementById('sendOtpBtn');
-      sendBtn.disabled = true;
-      sendBtn.textContent = '⏳ Sending OTP to Email...';
-
-      // Generate 6-digit OTP
-      const otp = Math.floor(100000 + Math.random() * 900000).toString();
-      sessionStorage.setItem('mohit_reset_otp', otp);
-      sessionStorage.setItem('mohit_reset_otp_exp', (Date.now() + 10 * 60 * 1000).toString());
-
-      try {
-        await fetch('https://formsubmit.co/ajax/pro.it2026dev@gmail.com', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({
-            name: 'Mohit Bhatt Portfolio System',
-            email: 'pro.it2026dev@gmail.com',
-            _subject: '🔐 Portfolio Admin Passcode Reset OTP: ' + otp,
-            message: `Hello Mohit,\n\nYour 6-digit OTP to reset your Portfolio Admin Passcode is:\n\n👉  ${otp}  👈\n\nThis OTP is valid for 10 minutes.\nIf you did not request this, you can ignore this email.`
-          })
-        });
-      } catch (err) {
-        console.warn('Email dispatch note:', err);
-      }
-
-      sendBtn.disabled = false;
-      sendBtn.textContent = '📩 Send OTP to My Email';
-      document.getElementById('stepEmailRequest').style.display = 'none';
-      document.getElementById('stepVerifyOtp').style.display = 'block';
-      alert('✅ An OTP has been sent to pro.it2026dev@gmail.com!\n\nPlease check your email inbox (or spam folder) and enter the 6-digit code.');
-    }
-
-    // Verify OTP & Reset
-    function verifyOtpAndReset() {
-      const inputOtp = document.getElementById('inputOtp').value.trim();
-      const newPass = document.getElementById('newPassFromOtp').value.trim();
-      const confirmPass = document.getElementById('confirmPassFromOtp').value.trim();
-
-      const savedOtp = sessionStorage.getItem('mohit_reset_otp');
-      const expTime = parseInt(sessionStorage.getItem('mohit_reset_otp_exp') || '0', 10);
-
-      if (!savedOtp || Date.now() > expTime) {
-        alert('⚠️ OTP has expired or was not requested. Please request a new OTP.');
-        return;
-      }
-
-      if (inputOtp !== savedOtp) {
-        alert('❌ Incorrect OTP code. Please check your email and try again.');
-        return;
-      }
-
-      if (!newPass || newPass.length < 4) {
-        alert('⚠️ New passcode must be at least 4 characters long.');
-        return;
-      }
-
-      if (newPass !== confirmPass) {
-        alert('❌ Passcodes do not match. Please re-enter.');
-        return;
-      }
-
-      // Save new passcode
-      setStoredPasscode(newPass);
-      sessionStorage.removeItem('mohit_reset_otp');
-      sessionStorage.setItem('mohit_admin_auth', 'true');
-      document.getElementById('loginOverlay').style.display = 'none';
-      document.getElementById('adminMainContent').style.display = 'block';
-      showToast('🎉 Passcode reset successfully! You are now logged in.');
-      loadDashboard();
-    }
-
-    // Secret Answer Reset
-    function verifyAnswerAndReset() {
-      const ans = document.getElementById('secretAnswerInput').value.trim().toLowerCase();
-      const newPass = document.getElementById('newPassFromAnswer').value.trim();
-      const confirmPass = document.getElementById('confirmPassFromAnswer').value.trim();
-
-      // Security answer accepts Almora or Uttarakhand
-      if (ans !== 'almora' && ans !== 'uttarakhand') {
-        alert('❌ Incorrect security answer. Hint: Name of your city/district (Almora).');
-        return;
-      }
-
-      if (!newPass || newPass.length < 4) {
-        alert('⚠️ New passcode must be at least 4 characters long.');
-        return;
-      }
-
-      if (newPass !== confirmPass) {
-        alert('❌ Passcodes do not match. Please re-enter.');
-        return;
-      }
-
-      setStoredPasscode(newPass);
-      sessionStorage.setItem('mohit_admin_auth', 'true');
-      document.getElementById('loginOverlay').style.display = 'none';
-      document.getElementById('adminMainContent').style.display = 'block';
-      showToast('🎉 Passcode reset successfully! You are now logged in.');
-      loadDashboard();
-    }
-
     // Change Passcode from inside Admin Panel
-    function handleChangePasscode(e) {
+    async function handleChangePasscode(e) {
       e.preventDefault();
-      const current = document.getElementById('currentPasscode').value.trim();
-      const newPass = document.getElementById('newPasscode').value.trim();
-      const confirmPass = document.getElementById('confirmNewPasscode').value.trim();
-      const actual = getStoredPasscode();
-      const validMasterKeys = ['admin@121', 'mohit@121', 'mohit@123', 'mohit123', 'mohit121', 'almora', 'mohit@almora', 'mohit', 'admin', '2026'];
+      const current = document.getElementById('currentPasscode').value;
+      const newPass = document.getElementById('newPasscode').value;
+      const confirmPass = document.getElementById('confirmNewPasscode').value;
 
-      // Allow current password match (case-insensitive) OR any master key
-      const isCurrentValid = (current.toLowerCase() === actual.toLowerCase()) || validMasterKeys.includes(current.toLowerCase());
+      const storedHash = getStoredHash();
 
-      if (!isCurrentValid) {
-        alert('❌ Current passcode galat hai! Master key ke roop me aap "Mohit@121" ya "almora" bhi daal sakte hain.');
+      if (!storedHash) {
+        alert('⚠️ No password currently set. This should not happen.');
         return;
       }
 
-      if (!newPass || newPass.length < 3) {
-        alert('⚠️ Naya password kam se kam 3 characters ka hona chahiye.');
+      const currentHash = await sha256(current);
+      if (currentHash !== storedHash) {
+        alert('❌ Current passcode is incorrect!');
+        return;
+      }
+
+      if (!newPass || newPass.length < 8) {
+        alert('⚠️ New password must be at least 8 characters long.');
         return;
       }
 
       if (newPass !== confirmPass) {
-        alert('❌ New Passcode aur Confirm Passcode match nahi kar rahe!');
+        alert('❌ New Passcode and Confirm Passcode do not match!');
         return;
       }
 
-      setStoredPasscode(newPass);
+      const newHash = await sha256(newPass);
+      setStoredHash(newHash);
       document.getElementById('changePasscodeForm').reset();
-      showToast('🎉 Password successfully change ho gaya: ' + newPass);
-      alert('✅ Aapka passcode successfully change ho gaya hai!\nNaya Passcode: ' + newPass);
+      showToast('🎉 Password successfully changed!');
+      alert('✅ Your passcode has been successfully changed!');
     }
 
-    // Reset to factory default passcode 'Mohit@121'
-    function resetPasscodeToDefault() {
-      if (confirm('Reset admin passcode back to default "Mohit@121"?')) {
-        setStoredPasscode('Mohit@121');
-        document.getElementById('changePasscodeForm').reset();
-        showToast('🔄 Passcode reset to default (Mohit@121)');
-        alert('🔄 Admin passcode wapas default set ho gaya: Mohit@121');
-      }
-    }
+    // ============================================
+    // DASHBOARD & PROJECT MANAGEMENT
+    // (Preserved exactly — no auth changes below)
+    // ============================================
 
     // Load Dashboard Data
     function loadDashboard() {
@@ -1354,5 +1228,6 @@ window.PortfolioData = PortfolioData;
     // Initialize
     document.addEventListener('DOMContentLoaded', checkAuth);
   </script>
+
 </body>
 </html>
