@@ -11,7 +11,6 @@ const DEFAULT_PORTFOLIO_DATA = {
     bio: "Hello! I'm Mohit Bhatt from Almora, Uttarakhand. I specialize in Modern Website Development and Software Solutions. I build high-performance websites and full-stack web applications. With a completed Diploma in Information Technology and Graduation, I provide modern web solutions and technical software support.",
     status: "Website Developer • Full-Stack & Python • Almora, Uttarakhand",
     location: "Delhi NCR, India (Native: Almora, Uttarakhand)",
-    phone: "+91 6399079567",
     email: "mohitbhatt2030@gmail.com",
     github: "https://github.com/mohitbhattuk01",
     linkedin: "https://www.linkedin.com/in/mohit-bhatt-almora",

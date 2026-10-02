@@ -11,7 +11,6 @@ const DEFAULT_PORTFOLIO_DATA = {
     bio: "Hello! I'm Mohit Bhatt from Almora, Uttarakhand. I specialize in Cloud Data Organization & Backup, and Modern Website Development. I manage cloud storage systems, secure data backups, file synchronization, and build high-performance websites. With a completed Diploma in Information Technology and Graduation, I provide end-to-end IT support and web solutions.",
     status: "Cloud Data & Backup • Website Developer • Delhi NCR, India",
     location: "Delhi NCR, India (Native: Almora, Uttarakhand)",
-    phone: "+91 6399079567",
     email: "mohitbhatt2030@gmail.com",
     github: "https://github.com/mohitbhattuk01",
     linkedin: "https://www.linkedin.com/in/mohit-bhatt-almora",
