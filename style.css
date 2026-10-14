@@ -249,11 +249,31 @@ main {
   box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
 }
 
-.hero-badge-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+.hero-badge-scroller {
+  overflow: hidden;
   margin-bottom: 12px;
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+
+.hero-badge-track {
+  display: flex;
+  gap: 10px;
+  width: max-content;
+  animation: badge-scroll 18s linear infinite;
+}
+
+.hero-badge-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes badge-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 .chip {
@@ -1023,7 +1043,7 @@ footer {
     justify-items: center;
   }
 
-  .hero-badge-row, .hero-actions {
+  .hero-badge-scroller, .hero-actions {
     justify-content: center;
   }
 
