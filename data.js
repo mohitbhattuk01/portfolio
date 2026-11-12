@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Portfolio Data Store & Management System
  * Handles default projects, localStorage persistence, and admin panel synchronization.
  */
@@ -9,7 +9,7 @@ const DEFAULT_PORTFOLIO_DATA = {
     name: "Mohit Bhatt",
     tagline: "Website Developer | Full-Stack & Python | IT Support",
     bio: "Hello! I'm Mohit Bhatt from Almora, Uttarakhand. I specialize in Modern Website Development and Software Solutions. I build high-performance websites and full-stack web applications. With a completed Diploma in Information Technology and Graduation, I provide modern web solutions and technical software support.",
-    status: "Website Developer • Full-Stack & Python • Almora, Uttarakhand",
+    status: "Website Developer • Full-Stack & Python • Delhi, India",
     location: "Delhi NCR, India (Native: Almora, Uttarakhand)",
     email: "mohitbhatt2030@gmail.com",
     github: "https://github.com/mohitbhattuk01",
@@ -22,11 +22,9 @@ const DEFAULT_PORTFOLIO_DATA = {
     {
       id: "exp-1",
       role: "IT Support, Tally & Cloud Storage Operations",
-      organization: "Cloude Data",
-      companyUrl: "https://cloudedata.com",
-      location: "Almora, Uttarakhand",
+      location: "Delhi, India",
       duration: "Present (Currently Working)",
-      description: "Managing IT support, computer hardware & network troubleshooting, Tally ERP software operations, secure cloud storage backups, and assisting with web hosting & digital infrastructure at Cloude Data.",
+      description: "Managing IT support, computer hardware & network troubleshooting, Tally ERP software operations, secure cloud storage backups, and assisting with web hosting & digital infrastructure.",
       skills: ["IT Support", "Tally ERP", "Cloud Storage & Backup", "System Troubleshooting", "Website Development", "Web Hosting", "Python"]
     }
   ],
