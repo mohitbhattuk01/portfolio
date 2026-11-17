@@ -589,9 +589,12 @@
       return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
+    // Default Cryptographic SHA-256 Hash for Master Passcode (Mohit@Admin#2026)
+    const DEFAULT_AUTH_HASH = '091274b7ab1d7b2736b9d7e0389ef60e332893a5a224e9ef07a95e3f1fa4d6d3';
+
     // Password Hash Storage
     function getStoredHash() {
-      return localStorage.getItem(AUTH_HASH_KEY);
+      return localStorage.getItem(AUTH_HASH_KEY) || DEFAULT_AUTH_HASH;
     }
 
     function setStoredHash(hash) {
