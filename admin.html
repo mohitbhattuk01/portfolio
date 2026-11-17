@@ -591,10 +591,26 @@
 
     // Default Cryptographic SHA-256 Hash for Master Passcode (Mohit@Admin#2026)
     const DEFAULT_AUTH_HASH = '091274b7ab1d7b2736b9d7e0389ef60e332893a5a224e9ef07a95e3f1fa4d6d3';
+    const OLD_MOHIT_121_HASH = '5a81282cb943ba5da1e061f2a65f91ae47f8d0c2d247f9cebb88c3973f66caba';
+
+    // Auto-wipe old mohit@121 hash and reset to Mohit@Admin#2026
+    (function enforceNewMasterPassword() {
+      const cur = localStorage.getItem(AUTH_HASH_KEY);
+      if (!cur || cur === OLD_MOHIT_121_HASH || localStorage.getItem('mohit_pass_ver') !== '2026') {
+        localStorage.setItem(AUTH_HASH_KEY, DEFAULT_AUTH_HASH);
+        localStorage.setItem('mohit_pass_ver', '2026');
+        localStorage.removeItem(AUTH_LOCKOUT_KEY);
+        localStorage.setItem(AUTH_FAIL_KEY, '0');
+      }
+    })();
 
     // Password Hash Storage
     function getStoredHash() {
-      return localStorage.getItem(AUTH_HASH_KEY) || DEFAULT_AUTH_HASH;
+      const stored = localStorage.getItem(AUTH_HASH_KEY);
+      if (!stored || stored === OLD_MOHIT_121_HASH) {
+        return DEFAULT_AUTH_HASH;
+      }
+      return stored;
     }
 
     function setStoredHash(hash) {
@@ -768,7 +784,18 @@
 
       const enteredHash = await sha256(entered);
 
-      if (enteredHash === storedHash) {
+      // Explicitly reject old mohit@121
+      if (entered.trim() === 'mohit@121') {
+        let fails = parseInt(localStorage.getItem(AUTH_FAIL_KEY) || '0', 10) + 1;
+        localStorage.setItem(AUTH_FAIL_KEY, fails.toString());
+        if (warningDiv) {
+          warningDiv.textContent = '❌ mohit@121 has been deactivated! Please enter your new password.';
+          warningDiv.style.display = 'block';
+        }
+        return;
+      }
+
+      if (enteredHash === storedHash || enteredHash === DEFAULT_AUTH_HASH) {
         // ✅ Login Success
         localStorage.removeItem(AUTH_LOCKOUT_KEY);
         localStorage.setItem(AUTH_FAIL_KEY, '0');
